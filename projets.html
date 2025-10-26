@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Projets — Grégory sordelet</title>
+  <meta name="description" content="Projets de Prénom Nom — Jobboard, Mario-like en Java, Mini-CMS." />
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="main.js"></script>
+</head>
+<body>
+  <header>
+    <div class="container navbar">
+      <img src="media/Screenshot from 2025-10-25 10-27-20.png" alt="Photo de Grégory" class="photo" />
+
+      <nav aria-label="Navigation principale">
+        <a href="index.html#about">À propos</a>
+        <a href="index.html#experience">Expérience</a>
+        <a href="index.html#education">Formation</a>
+        <a href="index.html#skills">Compétences</a>
+        <a href="index.html#passions">Passions</a>
+        <a class="active" href="projets.html">Projets</a>
+        <!-- <a href="game.html">Jeu</a> -->
+        <a href="index.html#contact">Contact</a>
+      </nav>
+      <div class="no-print" style="display:flex; gap:.4rem">
+        <button class="btn" id="themeBtn" aria-label="Basculer le thème">🌓</button>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="container">
+    <section>
+      <h1 class="reveal">Projets Réalisés</h1>
+      <p class="subtitle">Un aperçu de mes travaux techniques et ludiques. Plus sur mon <a href="https://github.com/username" target="_blank" rel="noreferrer"><u>GitHub</u></a>.</p>
+
+      <div class="grid grid-3 mt">
+
+        <article class="card project reveal d1">
+          <div class="title-sm">Jobboard type Indeed</div>
+          <p class="muted">Plateforme d'offres d'emploi (projet EPITECH)</p>
+          <div class="toolbar">
+            <span class="chip">Frontend (HTML / CSS(boostrap) / JS(Fetch API))</span><span class="chip">Backend (Node Js / Express Js)</span><span class="chip">Base de données (SQLITE)</span>
+          </div>
+
+
+
+
+
+          <div class="actions">
+            <h5>DÉMO : étape 1 : l'admin se connecte sur le site Jobboard</h5>
+              <img src="media/login_page.png" alt="login_page" class="projet" />
+            <h5>étape 2 : l'admin peut -> mettre des nouvelles entreprise / de nouvelles offres d'emploi / ajouter de nouveaux candidats <br>(les supprimer aussi et les modifier)</h5>
+              <img src="media/page_admin.png" alt="page_admin" class="projet" />
+            <h5>étape Candidature 1: la personne souhaitant postuler, accède a la page d'accueille et peut postuler au different offre.<br> il peut aussi crée un compte ou se connecter</h5>
+              <img src="media/page_principal.png" alt="page_principal" class="projet" />
+            <h5>étape Candidature 2 : une fois que le candidat postule à une offre, un mail est directement envoyé au recruteur qui a mit l'annonce : <br> Ici, Paul dubont(sous le mail de bertrand(collègue de Travail)), postule à l'offre d'informaticien. </h5>
+              <img src="media/mail.png" alt="mail" class="projet" />
+
+
+
+
+          </div>
+
+
+        </article>
+      <div class="grid grid-1 mt">
+
+        <article class="card project reveal d2">
+          <div class="title-sm">Digital Resume</div>
+          <p class="muted">CV Digital</p>
+          <div class="toolbar">
+            <span class="chip">HTML</span><span class="chip">CSS</span>
+          </div>
+          <div class="actions">
+            <h5>Page d'acceuille</h5>
+              <img src="media/Portfolio.png" alt="portfolio" class="projet" />
+
+
+            <a><u>lien vers site -> (soon)</u></a>
+          </div>
+        </div>
+
+        </article>
+
+    </section>
+
+    <section>
+      <h2 class="reveal">Projets en préparation</h2>
+      <div class="grid grid-2">
+        <article class="card reveal d1">
+          <div class="title-sm">Portfolio Mario-browser en 2D </div>
+          <p class="muted">Création d'un jeu Portfolio type Mario browser dans lequel je me présente.</p>
+          <div class="toolbar"><span class="chip">Java</span><span class="chip">Eclipse IDE</span></div>
+          <h5>Début du projet</h5>
+          <br><p>la page principale du jeu est seulement faite </p>
+            <img src="media/Marion.png" alt="mario" class="projet" />
+
+    </section>
+  </main>
+
+  <footer> <span id="year"></span> Grégory Sordelet — Projets.</footer>
+</body>
+</html>
