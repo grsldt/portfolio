@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Jeu Piano — Ear Trainer</title>
+  <meta name="description" content="Devine et rejoue les notes au piano pour entraîner ton oreille." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="main.js"></script>
+  <script defer src="game.js"></script>
+</head>
+<body>
+  <header>
+    <div class="container navbar">
+      <img src="media/Screenshot from 2025-10-25 10-27-20.png" alt="Photo de Grégory" class="photo" />
+      <nav aria-label="Navigation principale">
+        <a href="index.html#about">À propos</a>
+        <a href="index.html#experience">Expérience</a>
+        <a href="index.html#education">Formation</a>
+        <a href="index.html#skills">Compétences</a>
+        <a href="index.html#passions">Passions</a>
+        <a href="projets.html">Projets</a>
+        <a class="active" href="game.html">Jeu</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+      <div class="no-print" style="display:flex; gap:.4rem">
+        <button class="btn" id="themeBtn" aria-label="Basculer le thème">🌓</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Tip orientation mobile -->
+    <div id="orientTip" class="card muted" style="display:none; margin-top:1rem">
+      Astuce mobile : passe ton téléphone en <strong>paysage</strong> pour un clavier plus large 🎹
+    </div>
+
+    <section>
+      <h1 class="reveal"> Piano Style</h1>
+      <p class="subtitle">Écoute le son ou la mélodie, puis <strong>clique sur le clavier</strong> pour la reproduire. Sons générés en temps réel (Web Audio API).</p>
+
+      <div class="card game-panel reveal d1" role="group" aria-label="Contrôles du jeu">
+        <div class="game-controls">
+          <button class="btn primary" id="btn-audio">Activer l’audio</button>
+          <button class="btn" id="btn-play"> Jouer le son</button>
+          <button class="btn" id="btn-repeat" disabled> Répéter</button>
+          <button class="btn" id="btn-reset">↺ Réinitialiser</button>
+        </div>
+
+        <div class="game-options">
+          <label>Mode
+            <select id="mode">
+              <option value="note">Note unique</option>
+              <option value="melody">Mélodie (3–5 notes)</option>
+            </select>
+          </label>
+
+          <label>Difficulté
+            <select id="level">
+              <option value="easy">Débutant</option>
+              <option value="medium" selected>Intermédiaire</option>
+              <option value="hard">Avancé</option>
+            </select>
+          </label>
+
+          <label>Octaves
+            <select id="octaves">
+              <option value="1">1 octave (C4–B4)</option>
+              <option value="2" selected>2 octaves (C4–B5)</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="game-hud">
+          <div>Score : <strong id="score">0</strong></div>
+          <div>Vies : <span id="lives" aria-live="polite" aria-atomic="true">❤️❤️❤️</span></div>
+          <div>Essai : <span id="attempt" aria-live="polite" aria-atomic="true">1</span></div>
+          <div>Progression : <span id="progress" class="dots" aria-live="polite" aria-atomic="true">•</span></div>
+        </div>
+      </div>
+
+      <div class="card reveal d2">
+        <div id="piano" class="piano" role="application" aria-label="Clavier de piano interactif"></div>
+        <p class="muted" style="margin-top:1rem">
+          Astuce : clavier d’ordi (rangée A–L) activé pour les touches blanches (C à B).
+        </p>
+      </div>
+
+      <div class="card reveal d3" id="feedback" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer>© <span id="year"></span> Prénom Nom — Jeu piano Web Audio.</footer>
+</body>
+</html>
