@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Mélodie — Piano Chill</title>
+  <meta name="description" content="Appuie sur le bouton et écoute une jolie mélodie générée en temps réel." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="main.js"></script>
+  <script defer src="melody.js"></script>
+</head>
+<body>
+  <header>
+    <div class="container navbar">
+      <img src="media/Screenshot from 2025-10-25 10-27-20.png" alt="Photo de Grégory" class="photo" />
+      <nav aria-label="Navigation principale">
+        <a href="index.html#about">À propos</a>
+        <a href="index.html#experience">Expérience</a>
+        <a href="index.html#education">Formation</a>
+        <a href="index.html#skills">Compétences</a>
+        <a href="index.html#passions">Passions</a>
+        <a href="projets.html">Projets</a>
+        <a href="game.html">Jeu</a>
+        <a class="active" href="melody.html">Mélodie</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+      <div class="no-print" style="display:flex; gap:.4rem">
+        <button class="btn" id="themeBtn" aria-label="Basculer le thème">🌓</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="card reveal">
+        <h1>Création musicale 🎵</h1>
+        <p class="subtitle">
+          Appuie sur le bouton et laisse tourner : une petite progression d’accords
+          <strong>chill / lo-fi</strong>
+        </p>
+
+        <div class="toolbar">
+          <button class="btn primary" id="btn-audio">Activer l’audio</button>
+          <button class="btn" id="btn-play">▶️ Jouer la mélodie</button>
+          <button class="btn" id="btn-stop">⏹️ Stop</button>
+          <button class="btn" id="btn-loop">🔁 Boucle: <span id="loopState">Off</span></button>
+        </div>
+
+        <div class="toolbar">
+          <label>Onde
+            <select id="wave">
+              <option value="sine">Sine (douce)</option>
+              <option value="triangle" selected>Triangle</option>
+              <option value="square">Square</option>
+              <option value="sawtooth">Saw</option>
+            </select>
+          </label>
+
+          <label>Ambiance
+            <select id="mood">
+              <option value="chill" selected>Chill / lo-fi</option>
+              <option value="bright">Brillante</option>
+              <option value="soft">Très douce</option>
+            </select>
+          </label>
+
+          <label>Tempo
+            <input type="range" id="tempo" min="60" max="120" value="80" />
+            <span id="tempoVal">80 BPM</span>
+          </label>
+        </div>
+
+        <p class="muted">
+          Astuce : tu peux aussi lancer la mélodie avec la touche <span class="kbd">Espace</span>.
+        </p>
+      </div>
+
+      <aside class="card reveal d1">
+        <h2>Bienvenue dans ma page Mélodique</h2>
+        <h4>Ici je : </h4>
+        <ul class="bullets">
+          <li>Génère une suite d’accords Cmaj7 – Am7 – Fmaj7 – Gsus4/G7.</li>
+          <li>Tu peux changer l’onde, le tempo et l’ambiance (filtre plus/moins doux).</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section>
+      <div class="card reveal d2" id="feedback" role="status" aria-live="polite">
+        Prêt quand tu l’es. Clique sur <strong>Activer l’audio</strong>, puis sur <strong>Jouer la mélodie</strong>. 🎧
+      </div>
+    </section>
+  </main>
+
+  <footer>© <span id="year"></span> Grégory Sordelet — Mélodie Web Audio.</footer>
+</body>
+</html>
