@@ -12,25 +12,65 @@
   <script defer src="melody.js"></script>
 </head>
 <body>
-  <header>
-    <div class="container navbar">
+  <!-- HEADER + MENU -->
+<header class="site-header">
+  <div class="container navbar">
+    <!-- Brand à gauche -->
+    <div class="brand">
       <img src="media/Screenshot from 2025-10-25 10-27-20.png" alt="Photo de Grégory" class="photo" />
-      <nav aria-label="Navigation principale">
-        <a href="index.html#about">À propos</a>
-        <a href="index.html#experience">Expérience</a>
-        <a href="index.html#education">Formation</a>
-        <a href="index.html#skills">Compétences</a>
-        <a href="index.html#passions">Passions</a>
-        <a href="projets.html">Projets</a>
-        <a href="game.html">Jeu</a>
-        <a class="active" href="melody.html">Mélodie</a>
-        <a href="index.html#contact">Contact</a>
-      </nav>
-      <div class="no-print" style="display:flex; gap:.4rem">
-        <button class="btn" id="themeBtn" aria-label="Basculer le thème">🌓</button>
+      <div>
+        <strong class="brand-name">Grégory Sordelet</strong><br>
+        <span class="brand-tag">Étudiant EPITECH & Dev Web</span>
       </div>
     </div>
-  </header>
+
+    <!-- Menu desktop -->
+    <nav aria-label="Navigation principale" id="navDesktop">
+      <a href="index.html#about">À propos</a>
+      <a href="index.html#experience">Expérience</a>
+      <a href="index.html#education">Formation</a>
+      <a href="index.html#skills">Compétences</a>
+      <a href="index.html#passions">Passions</a>
+      <a href="projets.html">Projets</a>
+      <a href="game.html">Jeu</a>
+      <a href="melody.html">Mélodie</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+
+    <!-- Bouton ☰ pour mobile -->
+    <button class="mobile-menu-toggle no-print" id="openMenu">
+      ☰ Menu
+    </button>
+
+    <div class="no-print" style="display:flex; gap:.4rem">
+      <button class="btn" id="themeBtn" aria-label="Basculer le thème">🌓</button>
+    </div>
+  </div>
+</header>
+
+<!-- ⚠️ TRÈS IMPORTANT : le panneau mobile est EN DEHORS du header -->
+<div class="mobile-panel" id="mobilePanel">
+  <div class="mobile-panel-inner">
+    <div class="mobile-panel-header">
+      <span>Menu</span>
+      <button id="closeMenu" aria-label="Fermer le menu">✕</button>
+    </div>
+    <nav class="mobile-panel-list" aria-label="Navigation mobile">
+      <a class="cat-link" href="index.html#about">À propos</a>
+      <a class="cat-link" href="index.html#experience">Expérience</a>
+      <a class="cat-link" href="index.html#education">Formation</a>
+      <a class="cat-link" href="index.html#skills">Compétences</a>
+      <a class="cat-link" href="index.html#passions">Passions</a>
+      <a class="cat-link" href="projets.html">Projets</a>
+      <a class="cat-link" href="game.html">Jeu</a>
+      <a class="cat-link" href="melody.html">Mélodie</a>
+      <a class="cat-link" href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</div>
+
+
+
 
   <main class="container">
     <section class="hero">

@@ -279,3 +279,41 @@ modal.addEventListener("click", (e)=>{ if(e.target===modal) modal.classList.remo
 renderPiano();
 say("Clique « Activer l’audio », règle tes options, puis ▶️ Commencer.");
 document.getElementById("best").textContent = best;
+
+
+
+// ===== MENU MOBILE SLIDE =====
+(function(){
+  const openBtn = document.getElementById("openMenu");
+  const closeBtn = document.getElementById("closeMenu");
+  const panel = document.getElementById("mobilePanel");
+
+  if (!openBtn || !closeBtn || !panel) return;
+
+  const open = () => {
+    panel.classList.add("open");
+    document.body.style.overflow = "hidden";
+  };
+  const close = () => {
+    panel.classList.remove("open");
+    document.body.style.overflow = "";
+  };
+
+  openBtn.addEventListener("click", open);
+  closeBtn.addEventListener("click", close);
+
+  // clic sur le fond sombre = fermer
+  panel.addEventListener("click", (e) => {
+    if (e.target === panel) close();
+  });
+
+  // échap pour fermer
+  document.addEventListener("keydown", (e)=>{
+    if (e.key === "Escape") close();
+  });
+
+  // fermer si on repasse en desktop
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 900) close();
+  });
+})();
