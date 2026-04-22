@@ -9,7 +9,7 @@ import Footer from '@/components/Footer';
 const Index = () => {
   return (
     <div className="relative min-h-screen noise">
-      <Scene3D />
+      <AnimatedBackground />
       <Navbar />
       <main>
         <HeroSection />
