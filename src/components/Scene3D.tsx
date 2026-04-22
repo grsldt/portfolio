@@ -1,5 +1,5 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { useRef, useMemo, useEffect, useState, useCallback } from 'react';
+import { useRef, useMemo, useEffect, useState } from 'react';
 import * as THREE from 'three';
 
 function useIsRealMobile() {
@@ -7,17 +7,19 @@ function useIsRealMobile() {
   return /Android|iPhone|iPod/i.test(navigator.userAgent) && 'ontouchstart' in window;
 }
 
-function useScrollProgress() {
-  const [progress, setProgress] = useState(0);
+// Smooth scroll progress 0-1
+function useScrollSmooth() {
+  const value = useRef(0);
+  const target = useRef(0);
   useEffect(() => {
     const onScroll = () => {
       const max = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(max > 0 ? window.scrollY / max : 0);
+      target.current = max > 0 ? window.scrollY / max : 0;
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-  return progress;
+  return { value, target };
 }
 
 function useMouseSmooth() {
@@ -31,10 +33,18 @@ function useMouseSmooth() {
     window.addEventListener('mousemove', onMove, { passive: true });
     return () => window.removeEventListener('mousemove', onMove);
   }, []);
-  return { mouse, target };
+  useEffect(() => {
+    let raf: number;
+    const loop = () => {
+      mouse.current.lerp(target.current, 0.05);
+      raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(raf);
+  }, [mouse, target]);
+  return mouse;
 }
 
-// Shared noise GLSL
 const noiseGLSL = `
   vec3 mod289(vec3 x){return x-floor(x*(1.0/289.0))*289.0;}
   vec4 mod289(vec4 x){return x-floor(x*(1.0/289.0))*289.0;}
@@ -63,334 +73,260 @@ const noiseGLSL = `
   }
 `;
 
-// Main solid blob with dramatic distortion
-function CoreBlob({ scrollProgress, mouseRef }: { scrollProgress: number; mouseRef: React.MutableRefObject<THREE.Vector2> }) {
-  const meshRef = useRef<THREE.Mesh>(null);
+/*
+  ScrollMorphGeometry: A point cloud that morphs between shapes based on scroll.
+  scroll 0.0 = tight sphere
+  scroll 0.25 = torus knot
+  scroll 0.5 = exploded particles (chaos)
+  scroll 0.75 = flat grid/plane
+  scroll 1.0 = tight sphere again (loop)
+*/
+function ScrollMorphPoints({ scrollRef, mouseRef, isMobile }: {
+  scrollRef: React.MutableRefObject<number>;
+  mouseRef: React.MutableRefObject<THREE.Vector2>;
+  isMobile: boolean;
+}) {
+  const count = isMobile ? 3000 : 8000;
+  const pointsRef = useRef<THREE.Points>(null);
   const matRef = useRef<THREE.ShaderMaterial>(null);
-  const scrollSmooth = useRef(0);
 
-  const uniforms = useMemo(() => ({
-    uTime: { value: 0 },
-    uScroll: { value: 0 },
-    uMouse: { value: new THREE.Vector2(0, 0) },
-    uHover: { value: 0 },
-  }), []);
+  // Pre-compute target positions for each shape
+  const { spherePos, torusPos, explodePos, gridPos } = useMemo(() => {
+    const sphere = new Float32Array(count * 3);
+    const torus = new Float32Array(count * 3);
+    const explode = new Float32Array(count * 3);
+    const grid = new Float32Array(count * 3);
 
-  const vertexShader = `
-    ${noiseGLSL}
-    varying vec3 vNormal;
-    varying vec3 vWorldPos;
-    varying float vDisp;
-    varying float vNoise2;
-    uniform float uTime;
-    uniform float uScroll;
-    uniform vec2 uMouse;
-    void main(){
-      vNormal=normalize(normalMatrix*normal);
-      // Multi-octave displacement
-      float n1=snoise(position*0.8+uTime*0.12)*0.35;
-      float n2=snoise(position*1.6+uTime*0.2)*0.15;
-      float n3=snoise(position*3.2+uTime*0.35)*0.08;
-      float mouseInfluence=snoise(position*1.0+vec3(uMouse*2.0,uTime*0.1))*0.1;
-      float disp=n1+n2+n3+mouseInfluence;
-      disp*=(1.0+uScroll*0.8);
-      vDisp=disp;
-      vNoise2=n2;
-      vec3 newPos=position+normal*disp;
-      vWorldPos=(modelMatrix*vec4(newPos,1.0)).xyz;
-      gl_Position=projectionMatrix*modelViewMatrix*vec4(newPos,1.0);
-    }
-  `;
-
-  const fragmentShader = `
-    varying vec3 vNormal;
-    varying vec3 vWorldPos;
-    varying float vDisp;
-    varying float vNoise2;
-    uniform float uTime;
-    uniform float uScroll;
-    void main(){
-      vec3 viewDir=normalize(cameraPosition-vWorldPos);
-      float fresnel=pow(1.0-abs(dot(vNormal,viewDir)),3.0);
-      
-      // Rich color palette
-      vec3 green=vec3(0.24,1.0,0.77);
-      vec3 purple=vec3(0.6,0.4,1.0);
-      vec3 cyan=vec3(0.2,0.9,1.0);
-      
-      vec3 col=mix(green,purple,smoothstep(-0.2,0.3,vDisp));
-      col=mix(col,cyan,fresnel*0.6);
-      
-      // Hot edge glow
-      float edgeGlow=fresnel*0.9;
-      col+=green*edgeGlow*1.5;
-      
-      // Subsurface-like depth
-      float inner=smoothstep(0.0,0.4,1.0-fresnel)*0.15;
-      
-      float alpha=edgeGlow+inner+0.05;
-      alpha=clamp(alpha,0.0,1.0);
-      
-      gl_FragColor=vec4(col,alpha);
-    }
-  `;
-
-  useFrame((state) => {
-    const t = state.clock.elapsedTime;
-    scrollSmooth.current += (scrollProgress - scrollSmooth.current) * 0.03;
-    if (matRef.current) {
-      matRef.current.uniforms.uTime.value = t;
-      matRef.current.uniforms.uScroll.value = scrollSmooth.current;
-      matRef.current.uniforms.uMouse.value.lerp(mouseRef.current, 0.04);
-    }
-    if (meshRef.current) {
-      meshRef.current.rotation.y = t * 0.04;
-      meshRef.current.rotation.x = Math.sin(t * 0.025) * 0.2;
-      meshRef.current.position.x = THREE.MathUtils.lerp(meshRef.current.position.x, mouseRef.current.x * 0.3, 0.01);
-      meshRef.current.position.y = THREE.MathUtils.lerp(meshRef.current.position.y, mouseRef.current.y * 0.2, 0.01);
-    }
-  });
-
-  return (
-    <mesh ref={meshRef}>
-      <icosahedronGeometry args={[2, 80]} />
-      <shaderMaterial
-        ref={matRef}
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
-        uniforms={uniforms}
-        transparent
-        depthWrite={false}
-        side={THREE.FrontSide}
-      />
-    </mesh>
-  );
-}
-
-// Wireframe overlay — same shape but wireframe for that tech look
-function WireframeShell({ scrollProgress, mouseRef }: { scrollProgress: number; mouseRef: React.MutableRefObject<THREE.Vector2> }) {
-  const meshRef = useRef<THREE.Mesh>(null);
-  const matRef = useRef<THREE.ShaderMaterial>(null);
-  const scrollSmooth = useRef(0);
-
-  const uniforms = useMemo(() => ({
-    uTime: { value: 0 },
-    uScroll: { value: 0 },
-    uMouse: { value: new THREE.Vector2(0, 0) },
-  }), []);
-
-  const vertexShader = `
-    ${noiseGLSL}
-    varying float vDisp;
-    uniform float uTime;
-    uniform float uScroll;
-    uniform vec2 uMouse;
-    void main(){
-      float n1=snoise(position*0.8+uTime*0.12)*0.35;
-      float n2=snoise(position*1.6+uTime*0.2)*0.15;
-      float n3=snoise(position*3.2+uTime*0.35)*0.08;
-      float mouseInfluence=snoise(position*1.0+vec3(uMouse*2.0,uTime*0.1))*0.1;
-      float disp=(n1+n2+n3+mouseInfluence)*(1.0+uScroll*0.8);
-      vDisp=disp;
-      // Slightly larger than core
-      vec3 newPos=position*1.02+normal*disp;
-      gl_Position=projectionMatrix*modelViewMatrix*vec4(newPos,1.0);
-    }
-  `;
-
-  const fragmentShader = `
-    varying float vDisp;
-    void main(){
-      vec3 col=mix(vec3(0.24,1.0,0.77),vec3(0.6,0.4,1.0),smoothstep(-0.1,0.3,vDisp));
-      gl_FragColor=vec4(col,0.08);
-    }
-  `;
-
-  useFrame((state) => {
-    const t = state.clock.elapsedTime;
-    scrollSmooth.current += (scrollProgress - scrollSmooth.current) * 0.03;
-    if (matRef.current) {
-      matRef.current.uniforms.uTime.value = t;
-      matRef.current.uniforms.uScroll.value = scrollSmooth.current;
-      matRef.current.uniforms.uMouse.value.lerp(mouseRef.current, 0.04);
-    }
-    if (meshRef.current) {
-      meshRef.current.rotation.y = t * 0.04;
-      meshRef.current.rotation.x = Math.sin(t * 0.025) * 0.2;
-      meshRef.current.position.x = THREE.MathUtils.lerp(meshRef.current.position.x, mouseRef.current.x * 0.3, 0.01);
-      meshRef.current.position.y = THREE.MathUtils.lerp(meshRef.current.position.y, mouseRef.current.y * 0.2, 0.01);
-    }
-  });
-
-  return (
-    <mesh ref={meshRef}>
-      <icosahedronGeometry args={[2, 20]} />
-      <shaderMaterial
-        ref={matRef}
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
-        uniforms={uniforms}
-        transparent
-        wireframe
-        depthWrite={false}
-      />
-    </mesh>
-  );
-}
-
-// Orbiting rings
-function OrbitalRings() {
-  const group = useRef<THREE.Group>(null);
-  useFrame((state) => {
-    if (group.current) {
-      group.current.rotation.y = state.clock.elapsedTime * 0.03;
-    }
-  });
-  return (
-    <group ref={group}>
-      {[
-        { radius: 3.0, tilt: 0.6, speed: 0.04, opacity: 0.1 },
-        { radius: 3.5, tilt: -0.3, speed: -0.025, opacity: 0.06 },
-        { radius: 4.0, tilt: 1.2, speed: 0.015, opacity: 0.04 },
-      ].map((ring, i) => (
-        <RingLine key={i} {...ring} />
-      ))}
-    </group>
-  );
-}
-
-function RingLine({ radius, tilt, speed, opacity }: { radius: number; tilt: number; speed: number; opacity: number }) {
-  const ref = useRef<THREE.Mesh>(null);
-  useFrame((state) => {
-    if (ref.current) {
-      ref.current.rotation.x = tilt + state.clock.elapsedTime * speed;
-      ref.current.rotation.z = state.clock.elapsedTime * speed * 0.5;
-    }
-  });
-  return (
-    <mesh ref={ref}>
-      <torusGeometry args={[radius, 0.005, 16, 128]} />
-      <meshBasicMaterial color="#3dffc4" transparent opacity={opacity} />
-    </mesh>
-  );
-}
-
-// Floating dots — scattered particles
-function FloatingDots({ count = 250 }: { count?: number }) {
-  const ref = useRef<THREE.Points>(null);
-  const positions = useMemo(() => {
-    const pos = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      // Distribute in a sphere shell
-      const theta = Math.random() * Math.PI * 2;
+      // Sphere
       const phi = Math.acos(2 * Math.random() - 1);
-      const r = 4 + Math.random() * 12;
-      pos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-      pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-      pos[i * 3 + 2] = r * Math.cos(phi);
+      const theta = Math.random() * Math.PI * 2;
+      const r = 1.8;
+      sphere[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+      sphere[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+      sphere[i * 3 + 2] = r * Math.cos(phi);
+
+      // Torus knot
+      const t = (i / count) * Math.PI * 4;
+      const p2 = 2, q = 3, tr = 1.5, tube = 0.6;
+      const ct = Math.cos(t), st = Math.sin(t);
+      const qt = q * t / p2;
+      const rx = (tr + tube * Math.cos(qt)) * ct;
+      const ry = (tr + tube * Math.cos(qt)) * st;
+      const rz = tube * Math.sin(qt);
+      torus[i * 3] = rx;
+      torus[i * 3 + 1] = ry;
+      torus[i * 3 + 2] = rz;
+
+      // Exploded
+      const er = 2 + Math.random() * 5;
+      const ephi = Math.acos(2 * Math.random() - 1);
+      const etheta = Math.random() * Math.PI * 2;
+      explode[i * 3] = er * Math.sin(ephi) * Math.cos(etheta);
+      explode[i * 3 + 1] = er * Math.sin(ephi) * Math.sin(etheta);
+      explode[i * 3 + 2] = er * Math.cos(ephi);
+
+      // Grid/DNA helix
+      const gt = (i / count) * Math.PI * 8;
+      const gy = ((i / count) - 0.5) * 5;
+      const gr = 1.2;
+      const strand = i % 2 === 0 ? 1 : -1;
+      grid[i * 3] = Math.cos(gt) * gr * strand;
+      grid[i * 3 + 1] = gy;
+      grid[i * 3 + 2] = Math.sin(gt) * gr * strand;
     }
-    return pos;
+
+    return { spherePos: sphere, torusPos: torus, explodePos: explode, gridPos: grid };
   }, [count]);
 
+  const uniforms = useMemo(() => ({
+    uTime: { value: 0 },
+    uScroll: { value: 0 },
+    uMouse: { value: new THREE.Vector2(0, 0) },
+    uSpherePos: { value: null as THREE.DataTexture | null },
+    uTorusPos: { value: null as THREE.DataTexture | null },
+    uExplodePos: { value: null as THREE.DataTexture | null },
+    uGridPos: { value: null as THREE.DataTexture | null },
+    uCount: { value: count },
+  }), [count]);
+
+  // Use buffer attributes and morph in vertex shader via uniforms
+  const geometry = useMemo(() => {
+    const geo = new THREE.BufferGeometry();
+    // Index attribute for lookup
+    const indices = new Float32Array(count);
+    for (let i = 0; i < count; i++) indices[i] = i;
+    geo.setAttribute('position', new THREE.BufferAttribute(spherePos.slice(), 3));
+    geo.setAttribute('aSpherePos', new THREE.BufferAttribute(spherePos, 3));
+    geo.setAttribute('aTorusPos', new THREE.BufferAttribute(torusPos, 3));
+    geo.setAttribute('aExplodePos', new THREE.BufferAttribute(explodePos, 3));
+    geo.setAttribute('aGridPos', new THREE.BufferAttribute(gridPos, 3));
+    geo.setAttribute('aIndex', new THREE.BufferAttribute(indices, 1));
+    return geo;
+  }, [count, spherePos, torusPos, explodePos, gridPos]);
+
+  const vertexShader = `
+    ${noiseGLSL}
+    attribute vec3 aSpherePos;
+    attribute vec3 aTorusPos;
+    attribute vec3 aExplodePos;
+    attribute vec3 aGridPos;
+    attribute float aIndex;
+    
+    uniform float uTime;
+    uniform float uScroll;
+    uniform vec2 uMouse;
+    
+    varying float vAlpha;
+    varying float vColorMix;
+
+    void main() {
+      // Scroll sections: 0-0.25 sphere->torus, 0.25-0.5 torus->explode, 0.5-0.75 explode->helix, 0.75-1.0 helix->sphere
+      float s = uScroll;
+      vec3 pos;
+      
+      if (s < 0.25) {
+        float t = smoothstep(0.0, 0.25, s);
+        pos = mix(aSpherePos, aTorusPos, t);
+      } else if (s < 0.5) {
+        float t = smoothstep(0.25, 0.5, s);
+        pos = mix(aTorusPos, aExplodePos, t);
+      } else if (s < 0.75) {
+        float t = smoothstep(0.5, 0.75, s);
+        pos = mix(aExplodePos, aGridPos, t);
+      } else {
+        float t = smoothstep(0.75, 1.0, s);
+        pos = mix(aGridPos, aSpherePos, t);
+      }
+
+      // Add noise displacement
+      float noiseVal = snoise(pos * 0.8 + uTime * 0.15 + vec3(uMouse * 0.5, 0.0)) * 0.2;
+      pos += normalize(pos + 0.001) * noiseVal;
+
+      // Mouse influence
+      pos.x += uMouse.x * 0.15;
+      pos.y += uMouse.y * 0.1;
+
+      vAlpha = 0.6 + noiseVal * 2.0;
+      vColorMix = snoise(pos * 0.5 + uTime * 0.1) * 0.5 + 0.5;
+
+      vec4 mvPos = modelViewMatrix * vec4(pos, 1.0);
+      gl_Position = projectionMatrix * mvPos;
+      
+      // Size attenuation
+      float size = 2.5 * (1.0 + noiseVal);
+      gl_PointSize = size * (300.0 / -mvPos.z);
+    }
+  `;
+
+  const fragmentShader = `
+    varying float vAlpha;
+    varying float vColorMix;
+
+    void main() {
+      // Soft circle
+      float d = length(gl_PointCoord - 0.5) * 2.0;
+      if (d > 1.0) discard;
+      float alpha = (1.0 - d * d) * vAlpha * 0.7;
+
+      vec3 green = vec3(0.24, 1.0, 0.77);
+      vec3 purple = vec3(0.6, 0.4, 1.0);
+      vec3 col = mix(green, purple, vColorMix);
+
+      gl_FragColor = vec4(col, alpha);
+    }
+  `;
+
   useFrame((state) => {
-    if (ref.current) {
-      ref.current.rotation.y = state.clock.elapsedTime * 0.006;
-      ref.current.rotation.x = state.clock.elapsedTime * 0.003;
+    const t = state.clock.elapsedTime;
+    scrollRef.current += (scrollRef.current < 0 ? 0 : (scrollRef.current - scrollRef.current)) * 0; // just access
+    
+    if (matRef.current) {
+      matRef.current.uniforms.uTime.value = t;
+      // Smooth scroll
+      const currentScroll = matRef.current.uniforms.uScroll.value;
+      matRef.current.uniforms.uScroll.value += (scrollRef.current - currentScroll) * 0.04;
+      matRef.current.uniforms.uMouse.value.lerp(mouseRef.current, 0.03);
+    }
+    if (pointsRef.current) {
+      pointsRef.current.rotation.y = t * 0.03;
     }
   });
 
   return (
-    <points ref={ref}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.02}
-        color="#3dffc4"
+    <points ref={pointsRef} geometry={geometry}>
+      <shaderMaterial
+        ref={matRef}
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+        uniforms={uniforms}
         transparent
-        opacity={0.3}
-        sizeAttenuation
-        blending={THREE.AdditiveBlending}
         depthWrite={false}
+        blending={THREE.AdditiveBlending}
       />
     </points>
   );
 }
 
-// Connecting lines between nearby particles for network effect
-function NetworkLines({ count = 80 }: { count?: number }) {
-  const ref = useRef<THREE.LineSegments>(null);
-
-  const geometry = useMemo(() => {
-    const points: number[] = [];
-    const nodes: THREE.Vector3[] = [];
-    
-    for (let i = 0; i < count; i++) {
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      const r = 4 + Math.random() * 6;
-      nodes.push(new THREE.Vector3(
-        r * Math.sin(phi) * Math.cos(theta),
-        r * Math.sin(phi) * Math.sin(theta),
-        r * Math.cos(phi)
-      ));
-    }
-
-    for (let i = 0; i < nodes.length; i++) {
-      for (let j = i + 1; j < nodes.length; j++) {
-        if (nodes[i].distanceTo(nodes[j]) < 3) {
-          points.push(nodes[i].x, nodes[i].y, nodes[i].z);
-          points.push(nodes[j].x, nodes[j].y, nodes[j].z);
-        }
-      }
-    }
-
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.Float32BufferAttribute(points, 3));
-    return geo;
-  }, [count]);
-
+// Thin orbital rings
+function Rings() {
+  const group = useRef<THREE.Group>(null);
   useFrame((state) => {
-    if (ref.current) {
-      ref.current.rotation.y = state.clock.elapsedTime * 0.005;
-      ref.current.rotation.x = state.clock.elapsedTime * 0.002;
-    }
+    if (group.current) group.current.rotation.y = state.clock.elapsedTime * 0.02;
   });
-
   return (
-    <lineSegments ref={ref} geometry={geometry}>
-      <lineBasicMaterial color="#3dffc4" transparent opacity={0.04} blending={THREE.AdditiveBlending} />
-    </lineSegments>
+    <group ref={group}>
+      {[
+        { r: 2.8, tilt: 0.5, speed: 0.03, op: 0.06 },
+        { r: 3.4, tilt: -0.8, speed: -0.02, op: 0.04 },
+      ].map((ring, i) => {
+        const ref = useRef<THREE.Mesh>(null);
+        return (
+          <mesh key={i} ref={ref} rotation={[ring.tilt, 0, 0]}>
+            <torusGeometry args={[ring.r, 0.004, 16, 128]} />
+            <meshBasicMaterial color="#3dffc4" transparent opacity={ring.op} />
+          </mesh>
+        );
+      })}
+    </group>
   );
 }
 
-function ScrollCamera({ scrollProgress }: { scrollProgress: number }) {
+function ScrollCamera({ scrollRef }: { scrollRef: React.MutableRefObject<number> }) {
   const { camera } = useThree();
-  const scrollSmooth = useRef(0);
+  const smoothScroll = useRef(0);
+
   useFrame(() => {
-    scrollSmooth.current += (scrollProgress - scrollSmooth.current) * 0.02;
-    camera.position.z = THREE.MathUtils.lerp(camera.position.z, 5 + scrollSmooth.current * 3, 0.02);
-    camera.position.y = THREE.MathUtils.lerp(camera.position.y, scrollSmooth.current * -1.5, 0.02);
+    smoothScroll.current += (scrollRef.current - smoothScroll.current) * 0.03;
+    const s = smoothScroll.current;
+    
+    // Camera orbits slightly based on scroll
+    const angle = s * Math.PI * 0.5;
+    const dist = 5 + Math.sin(s * Math.PI) * 1.5;
+    camera.position.x = Math.sin(angle) * 1.5;
+    camera.position.z = dist;
+    camera.position.y = Math.cos(s * Math.PI * 2) * 0.5;
     camera.lookAt(0, 0, 0);
   });
+
   return null;
 }
 
 export default function Scene3D() {
   const isMobile = useIsRealMobile();
-  const scrollProgress = useScrollProgress();
-  const { mouse, target } = useMouseSmooth();
+  const scroll = useScrollSmooth();
+  const mouse = useMouseSmooth();
 
-  // Smooth mouse in animation frame
+  // Update smooth scroll
   useEffect(() => {
     let raf: number;
-    const update = () => {
-      mouse.current.lerp(target.current, 0.06);
-      raf = requestAnimationFrame(update);
+    const loop = () => {
+      scroll.value.current += (scroll.target.current - scroll.value.current) * 0.04;
+      raf = requestAnimationFrame(loop);
     };
-    raf = requestAnimationFrame(update);
+    raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [mouse, target]);
+  }, [scroll]);
 
   return (
     <div className="fixed inset-0 -z-10">
@@ -401,14 +337,14 @@ export default function Scene3D() {
         gl={{ antialias: !isMobile, alpha: true, powerPreference: 'high-performance' }}
       >
         <color attach="background" args={['#060a12']} />
-        <fog attach="fog" args={['#060a12', 8, 25]} />
 
-        <ScrollCamera scrollProgress={scrollProgress} />
-        <CoreBlob scrollProgress={scrollProgress} mouseRef={mouse} />
-        <WireframeShell scrollProgress={scrollProgress} mouseRef={mouse} />
-        <OrbitalRings />
-        <FloatingDots count={isMobile ? 80 : 250} />
-        {!isMobile && <NetworkLines count={80} />}
+        <ScrollCamera scrollRef={scroll.value} />
+        <ScrollMorphPoints
+          scrollRef={scroll.value}
+          mouseRef={mouse}
+          isMobile={isMobile}
+        />
+        <Rings />
       </Canvas>
     </div>
   );
