@@ -138,7 +138,7 @@ function GlowSphere() {
 }
 
 export default function Scene3D() {
-  const isMobile = useIsMobile();
+  const isMobile = useIsRealMobile();
 
   return (
     <div className="fixed inset-0 -z-10">
