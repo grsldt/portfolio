@@ -16,10 +16,10 @@ export default function QuickMissionsSection() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="rounded-xl bg-card border border-accent/20 p-8 md:p-12 text-center"
+          className="terminal-card border-accent/20 p-8 md:p-12 text-center"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 text-accent text-xs font-medium mb-6">
-            ⚡ Disponible pour des missions ponctuelles
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 border border-accent/30 text-accent text-[10px] font-mono tracking-widest mb-6">
+            ⚡ DISPONIBLE
           </div>
 
           <h2 className="font-heading text-2xl md:text-3xl font-bold mb-3">
@@ -39,7 +39,7 @@ export default function QuickMissionsSection() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="flex items-center gap-3 p-3 rounded-lg bg-secondary/50 border border-border text-sm text-foreground/70"
+                  className="flex items-center gap-3 p-3 border border-border text-sm text-foreground/65"
                 >
                   <Icon size={16} className="text-accent shrink-0" />
                   {m.text}
@@ -50,7 +50,7 @@ export default function QuickMissionsSection() {
 
           <a
             href="#contact"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-lg transition-all shadow-lg shadow-accent/20 group"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-accent-foreground font-bold text-sm tracking-wide transition-all glow-accent group"
           >
             Me contacter pour une mission
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />

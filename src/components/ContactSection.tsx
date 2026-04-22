@@ -11,7 +11,7 @@ export default function ContactSection() {
           viewport={{ once: true }}
           className="mb-14 text-center"
         >
-          <p className="text-primary text-sm font-medium mb-3">Prêt à démarrer ?</p>
+          <p className="text-primary text-xs font-mono tracking-widest mb-4">// CONTACT</p>
           <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight">
             Discutons de votre projet
           </h2>
@@ -26,34 +26,34 @@ export default function ContactSection() {
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="rounded-xl bg-card border border-border"
+            className="terminal-card"
           >
-            <div className="p-6 space-y-4">
+            <div className="p-6 space-y-3">
               {[
                 { icon: Mail, label: 'Email', value: 'gregsordel@icloud.com', href: 'mailto:gregsordel@icloud.com' },
                 { icon: Phone, label: 'Téléphone', value: '+33 6 10 64 38 31', href: 'tel:+33610643831' },
-                { icon: Github, label: 'GitHub', value: 'github.com/grsldt', href: 'https://github.com/grsldt' },
+                { icon: Github, label: 'GitHub', value: 'github.com/grsldt', href: 'https://github.com/grsldt', external: true },
               ].map((item) => {
                 const Icon = item.icon;
                 return (
-                  <a key={item.label} href={item.href} target={item.label === 'GitHub' ? '_blank' : undefined} rel="noopener noreferrer" className="flex items-center gap-4 group p-3 rounded-lg hover:bg-secondary/50 transition-colors">
-                    <div className="p-2.5 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                      <Icon size={18} />
+                  <a key={item.label} href={item.href} target={item.external ? '_blank' : undefined} rel="noopener noreferrer" className="flex items-center gap-4 group p-3 hover:bg-secondary/50 transition-colors">
+                    <div className="p-2.5 border border-primary/20 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                      <Icon size={16} />
                     </div>
                     <div>
-                      <p className="text-xs text-muted-foreground">{item.label}</p>
-                      <p className="text-sm text-foreground/80 group-hover:text-primary transition-colors">{item.value}</p>
+                      <p className="text-[10px] text-muted-foreground font-mono tracking-widest">{item.label.toUpperCase()}</p>
+                      <p className="text-sm text-foreground/75 group-hover:text-primary transition-colors">{item.value}</p>
                     </div>
                   </a>
                 );
               })}
               <div className="flex items-center gap-4 p-3">
-                <div className="p-2.5 rounded-lg bg-accent/10 text-accent">
-                  <MapPin size={18} />
+                <div className="p-2.5 border border-accent/20 text-accent">
+                  <MapPin size={16} />
                 </div>
                 <div>
-                  <p className="text-xs text-muted-foreground">Localisation</p>
-                  <p className="text-sm text-foreground/80">Rennes · Vannes · Paris</p>
+                  <p className="text-[10px] text-muted-foreground font-mono tracking-widest">LOCALISATION</p>
+                  <p className="text-sm text-foreground/75">Rennes · Vannes · Paris</p>
                 </div>
               </div>
             </div>
@@ -64,10 +64,10 @@ export default function ContactSection() {
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="rounded-xl bg-card border border-primary/20 flex flex-col items-center justify-center p-8 text-center"
+            className="terminal-card border-primary/20 flex flex-col items-center justify-center p-8 text-center"
           >
-            <div className="p-4 rounded-xl bg-primary/10 mb-6">
-              <Mail size={32} className="text-primary" />
+            <div className="p-4 border border-primary/20 mb-6">
+              <Mail size={28} className="text-primary" />
             </div>
             <h3 className="font-heading text-xl font-bold mb-2">Envoyez-moi un message</h3>
             <p className="text-sm text-muted-foreground mb-6 max-w-[30ch] leading-relaxed">
@@ -75,7 +75,7 @@ export default function ContactSection() {
             </p>
             <a
               href="mailto:gregsordel@icloud.com?subject=Demande%20de%20devis%20-%20Speed%20Services"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg transition-all shadow-lg shadow-primary/20 group"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-bold text-sm tracking-wide transition-all glow-primary group"
             >
               Discuter de mon projet
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />

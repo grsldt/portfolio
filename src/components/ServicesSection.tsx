@@ -12,8 +12,8 @@ const services = [
       "API & backend",
     ],
     result: "Un produit fonctionnel, prêt à être utilisé par vos clients.",
-    accent: false,
-    badge: null,
+    highlight: true,
+    badge: 'Recommandé',
   },
   {
     icon: Bot,
@@ -25,7 +25,7 @@ const services = [
       "Intégration IA (OpenAI, etc.)",
     ],
     result: "Moins de travail manuel, gain de temps et augmentation des revenus.",
-    accent: true,
+    highlight: true,
     badge: 'Recommandé',
   },
   {
@@ -38,7 +38,7 @@ const services = [
       "Configuration & monitoring",
     ],
     result: "Une infrastructure stable et sécurisée.",
-    accent: false,
+    highlight: false,
     badge: 'Missions simples · Tarifs adaptés',
   },
 ];
@@ -61,7 +61,7 @@ export default function ServicesSection() {
           viewport={{ once: true }}
           className="mb-14 text-center"
         >
-          <p className="text-primary text-sm font-medium mb-3">Ce que je propose</p>
+          <p className="text-primary text-xs font-mono tracking-widest mb-4">// CE QUE JE PROPOSE</p>
           <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight">
             Des solutions concrètes pour{' '}
             <span className="text-gradient">votre business</span>
@@ -79,35 +79,35 @@ export default function ServicesSection() {
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true }}
-                className={`relative rounded-xl bg-card border ${service.accent ? 'border-primary/30 shadow-lg shadow-primary/5' : 'border-border'} hover:border-primary/40 transition-all duration-300 flex flex-col overflow-hidden`}
+                className={`terminal-card ${service.highlight ? 'border-primary/25' : ''} hover:border-primary/40 transition-all duration-300 flex flex-col overflow-hidden`}
               >
                 {service.badge && (
-                  <div className={`px-4 py-1.5 text-xs font-medium text-center ${
-                    service.accent ? 'bg-primary/10 text-primary' : 'bg-secondary text-muted-foreground'
+                  <div className={`px-4 py-1.5 text-[10px] font-mono tracking-widest text-center border-b ${
+                    service.highlight ? 'bg-primary/5 border-primary/15 text-primary' : 'bg-secondary border-border text-muted-foreground'
                   }`}>
-                    {service.badge}
+                    {service.badge.toUpperCase()}
                   </div>
                 )}
 
                 <div className="p-6 flex flex-col flex-1">
-                  <div className={`p-3 rounded-lg ${service.accent ? 'bg-primary/10 text-primary' : 'bg-secondary text-muted-foreground'} w-fit mb-5`}>
-                    <Icon size={24} />
+                  <div className={`p-3 border ${service.highlight ? 'border-primary/30 text-primary' : 'border-border text-muted-foreground'} w-fit mb-5`}>
+                    <Icon size={22} />
                   </div>
 
-                  <h3 className="font-heading text-xl font-bold mb-2">{service.title}</h3>
+                  <h3 className="font-heading text-lg font-bold mb-2">{service.title}</h3>
                   <p className="text-sm text-muted-foreground mb-5 leading-relaxed">{service.description}</p>
 
                   <ul className="space-y-2.5 mb-5 flex-1">
                     {service.items.map((item) => (
-                      <li key={item} className="flex items-start gap-2.5 text-sm text-foreground/70">
-                        <CheckCircle size={16} className="text-primary shrink-0 mt-0.5" />
+                      <li key={item} className="flex items-start gap-2.5 text-sm text-foreground/65">
+                        <CheckCircle size={14} className="text-primary shrink-0 mt-0.5" />
                         {item}
                       </li>
                     ))}
                   </ul>
 
                   <div className="pt-4 border-t border-border">
-                    <p className="text-xs text-primary font-medium mb-4">→ {service.result}</p>
+                    <p className="text-xs text-primary font-mono mb-4">→ {service.result}</p>
                     <a
                       href="#contact"
                       className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors font-medium"
