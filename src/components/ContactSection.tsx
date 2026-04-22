@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Mail, ArrowRight } from 'lucide-react';
+import { Mail, Phone, Github, MapPin, ArrowRight } from 'lucide-react';
 
 export default function ContactSection() {
   return (
@@ -9,89 +9,77 @@ export default function ContactSection() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-12"
+          className="mb-14 text-center"
         >
-          <div className="text-primary text-xs tracking-widest flex items-center gap-3 mb-4">
-            <span className="text-primary/50">$</span> ssh contact@speed-services
-          </div>
-          <p className="text-foreground/30 text-xs normal-case">Connection established. Awaiting input...</p>
+          <p className="text-primary text-sm font-medium mb-3">Prêt à démarrer ?</p>
+          <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight">
+            Discutons de votre projet
+          </h2>
+          <p className="text-muted-foreground mt-4 max-w-[50ch] mx-auto leading-relaxed">
+            Décrivez-moi votre besoin et recevez un devis gratuit sous 24h.
+          </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-5">
+          {/* Contact info */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="terminal-block"
+            className="rounded-xl bg-card border border-border"
           >
-            <div className="terminal-header">
-              <span className="size-1.5 bg-primary animate-pulse" />
-              <span>contact.conf</span>
-            </div>
-            <div className="p-5 space-y-3 text-xs">
-              <div className="space-y-1.5">
-                <p>
-                  <span className="text-foreground/30">1</span>
-                  <span className="text-primary ml-3">email</span>
-                  <span className="text-foreground/30">=</span>
-                  <a href="mailto:gregsordel@icloud.com" className="text-foreground/70 hover:text-primary transition-colors normal-case">"gregsordel@icloud.com"</a>
-                </p>
-                <p>
-                  <span className="text-foreground/30">2</span>
-                  <span className="text-primary ml-3">phone</span>
-                  <span className="text-foreground/30">=</span>
-                  <a href="tel:+33610643831" className="text-foreground/70 hover:text-primary transition-colors normal-case">"+33 6 10 64 38 31"</a>
-                </p>
-                <p>
-                  <span className="text-foreground/30">3</span>
-                  <span className="text-primary ml-3">github</span>
-                  <span className="text-foreground/30">=</span>
-                  <a href="https://github.com/grsldt" target="_blank" rel="noopener noreferrer" className="text-foreground/70 hover:text-primary transition-colors normal-case">"github.com/grsldt"</a>
-                </p>
-                <p>
-                  <span className="text-foreground/30">4</span>
-                  <span className="text-primary ml-3">location</span>
-                  <span className="text-foreground/30">=</span>
-                  <span className="text-foreground/70 normal-case">"Rennes · Vannes · Paris"</span>
-                </p>
-                <p>
-                  <span className="text-foreground/30">5</span>
-                  <span className="text-primary ml-3">response_time</span>
-                  <span className="text-foreground/30">=</span>
-                  <span className="text-accent normal-case">"&lt;24h"</span>
-                </p>
+            <div className="p-6 space-y-4">
+              {[
+                { icon: Mail, label: 'Email', value: 'gregsordel@icloud.com', href: 'mailto:gregsordel@icloud.com' },
+                { icon: Phone, label: 'Téléphone', value: '+33 6 10 64 38 31', href: 'tel:+33610643831' },
+                { icon: Github, label: 'GitHub', value: 'github.com/grsldt', href: 'https://github.com/grsldt' },
+              ].map((item) => {
+                const Icon = item.icon;
+                return (
+                  <a key={item.label} href={item.href} target={item.label === 'GitHub' ? '_blank' : undefined} rel="noopener noreferrer" className="flex items-center gap-4 group p-3 rounded-lg hover:bg-secondary/50 transition-colors">
+                    <div className="p-2.5 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                      <Icon size={18} />
+                    </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground">{item.label}</p>
+                      <p className="text-sm text-foreground/80 group-hover:text-primary transition-colors">{item.value}</p>
+                    </div>
+                  </a>
+                );
+              })}
+              <div className="flex items-center gap-4 p-3">
+                <div className="p-2.5 rounded-lg bg-accent/10 text-accent">
+                  <MapPin size={18} />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground">Localisation</p>
+                  <p className="text-sm text-foreground/80">Rennes · Vannes · Paris</p>
+                </div>
               </div>
             </div>
           </motion.div>
 
+          {/* CTA card */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="terminal-block flex flex-col"
+            className="rounded-xl bg-card border border-primary/20 flex flex-col items-center justify-center p-8 text-center"
           >
-            <div className="terminal-header">
-              <span className="size-1.5 bg-accent animate-pulse" />
-              <span>start-project.sh</span>
+            <div className="p-4 rounded-xl bg-primary/10 mb-6">
+              <Mail size={32} className="text-primary" />
             </div>
-            <div className="flex-1 p-5 flex flex-col items-center justify-center gap-5">
-              <div className="text-xs text-foreground/40 text-center space-y-1 normal-case">
-                <p><span className="text-primary">$</span> ./start-project.sh</p>
-                <p className="text-foreground/30">Décrivez votre projet et recevez</p>
-                <p className="text-foreground/30">une proposition détaillée sous 24h.</p>
-              </div>
-              <a
-                href="mailto:gregsordel@icloud.com?subject=Demande%20de%20devis%20-%20Speed%20Services"
-                className="group relative px-6 py-3 bg-primary text-primary-foreground font-bold text-xs tracking-wider overflow-hidden normal-case"
-              >
-                <span className="absolute inset-0 bg-accent -translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
-                <span className="relative group-hover:text-foreground transition-colors duration-300 flex items-center gap-2">
-                  <Mail size={14} />
-                  ./send --proposal
-                  <ArrowRight size={14} />
-                </span>
-              </a>
-            </div>
+            <h3 className="font-heading text-xl font-bold mb-2">Envoyez-moi un message</h3>
+            <p className="text-sm text-muted-foreground mb-6 max-w-[30ch] leading-relaxed">
+              Décrivez votre projet et recevez une proposition détaillée sous 24h.
+            </p>
+            <a
+              href="mailto:gregsordel@icloud.com?subject=Demande%20de%20devis%20-%20Speed%20Services"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg transition-all shadow-lg shadow-primary/20 group"
+            >
+              Discuter de mon projet
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </a>
           </motion.div>
         </div>
       </div>

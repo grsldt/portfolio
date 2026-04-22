@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion';
-import { Star } from 'lucide-react';
+import { Zap, Target, Clock, MessageSquare, Star } from 'lucide-react';
 
 const reasons = [
-  { key: 'reactivity', val: 'true', desc: "Réponse sous 24h, livraison rapide." },
-  { key: 'custom', val: 'true', desc: "Chaque solution adaptée à votre besoin." },
-  { key: 'direct_contact', val: 'true', desc: "Communication directe, pas d'intermédiaire." },
-  { key: 'support', val: 'true', desc: "Suivi après livraison et support inclus." },
+  { icon: Zap, title: "Développement rapide", text: "Des solutions livrées en quelques jours, pas en mois." },
+  { icon: Target, title: "Orienté résultats", text: "Chaque projet est pensé pour générer un retour concret." },
+  { icon: Clock, title: "Disponible & réactif", text: "Réponse sous 24h, communication directe sans intermédiaire." },
+  { icon: MessageSquare, title: "Flexible", text: "Petites missions comme grands projets, je m'adapte à vos besoins." },
 ];
 
 const testimonials = [
@@ -29,54 +29,39 @@ export default function WhyMeSection() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-12"
+          className="mb-14 text-center"
         >
-          <div className="text-primary text-xs tracking-widest flex items-center gap-3 mb-4">
-            <span className="text-primary/50">$</span> cat /etc/speed/why.conf
-          </div>
+          <p className="text-primary text-sm font-medium mb-3">Pourquoi me choisir</p>
+          <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight">
+            Ce qui fait la différence
+          </h2>
         </motion.div>
 
-        {/* Reasons as config file */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="terminal-block mb-8"
-        >
-          <div className="terminal-header">
-            <span className="size-1.5 bg-primary animate-pulse" />
-            <span>why.conf</span>
-            <span className="ml-auto text-foreground/20">read-only</span>
-          </div>
-          <div className="p-5 space-y-3">
-            {reasons.map((r, i) => (
+        {/* Reasons */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
+          {reasons.map((r, i) => {
+            const Icon = r.icon;
+            return (
               <motion.div
-                key={r.key}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                key={r.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-xs"
+                className="rounded-xl bg-card border border-border p-6 text-center hover:border-primary/30 transition-colors"
               >
-                <span className="text-foreground/30 w-4 shrink-0">{i + 1}</span>
-                <span className="shrink-0">
-                  <span className="text-primary">{r.key}</span>
-                  <span className="text-foreground/30">=</span>
-                  <span className="text-accent">{r.val}</span>
-                </span>
-                <span className="text-foreground/30 normal-case">
-                  # {r.desc}
-                </span>
+                <div className="mx-auto p-3 rounded-lg bg-primary/10 text-primary w-fit mb-4">
+                  <Icon size={22} />
+                </div>
+                <h3 className="font-heading font-bold text-base mb-2">{r.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{r.text}</p>
               </motion.div>
-            ))}
-          </div>
-        </motion.div>
+            );
+          })}
+        </div>
 
         {/* Testimonials */}
-        <div className="text-primary text-xs tracking-widest flex items-center gap-3 mb-4">
-          <span className="text-primary/50">$</span> cat /var/log/reviews.log
-        </div>
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-5">
           {testimonials.map((t, i) => (
             <motion.div
               key={t.author}
@@ -84,27 +69,37 @@ export default function WhyMeSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.15 }}
-              className="terminal-block"
+              className="rounded-xl bg-card border border-border p-6"
             >
-              <div className="terminal-header">
-                <span className="size-1.5 bg-accent" />
-                <span>review_{i + 1}.log</span>
-                <span className="ml-auto flex gap-0.5">
-                  {[...Array(5)].map((_, j) => (
-                    <Star key={j} size={8} className="text-accent fill-accent" />
-                  ))}
-                </span>
+              <div className="flex gap-1 mb-4">
+                {[...Array(5)].map((_, j) => (
+                  <Star key={j} size={14} className="text-yellow-500 fill-yellow-500" />
+                ))}
               </div>
-              <div className="p-5">
-                <p className="text-xs text-foreground/60 normal-case leading-relaxed italic mb-4">"{t.quote}"</p>
-                <div className="border-t border-primary/10 pt-3 text-[10px]">
-                  <span className="text-foreground/70">{t.author}</span>
-                  <span className="text-foreground/30 ml-2">// {t.role}</span>
-                </div>
+              <p className="text-sm text-foreground/70 leading-relaxed italic mb-4">"{t.quote}"</p>
+              <div className="border-t border-border pt-3">
+                <p className="text-sm font-semibold">{t.author}</p>
+                <p className="text-xs text-muted-foreground">{t.role}</p>
               </div>
             </motion.div>
           ))}
         </div>
+
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-12 text-center"
+        >
+          <a
+            href="#contact"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg transition-all shadow-lg shadow-primary/20 group"
+          >
+            Discuter de mon projet
+            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+          </a>
+        </motion.div>
       </div>
     </section>
   );
