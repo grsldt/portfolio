@@ -29,7 +29,7 @@ export default function SkillsSection() {
           viewport={{ once: true }}
           className="mb-14 text-center"
         >
-          <p className="text-primary text-sm font-medium mb-3">Technologies</p>
+          <p className="text-primary text-xs font-mono tracking-widest mb-4">// TECHNOLOGIES</p>
           <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight">
             Stack technique
           </h2>
@@ -43,16 +43,16 @@ export default function SkillsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: catIndex * 0.1 }}
-              className="rounded-xl bg-card border border-border hover:border-primary/30 transition-colors"
+              className="terminal-card hover:border-primary/30 transition-colors"
             >
               <div className="px-5 py-3 border-b border-border">
-                <h3 className="text-sm font-heading font-bold text-primary">{cat.title}</h3>
+                <h3 className="text-xs font-mono font-bold text-primary tracking-widest">{cat.title.toUpperCase()}</h3>
               </div>
               <div className="p-4 flex flex-wrap gap-2">
                 {cat.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="text-xs px-2.5 py-1 rounded-md bg-secondary border border-border text-muted-foreground hover:text-primary hover:border-primary/30 transition-colors"
+                    className="text-xs px-2.5 py-1 border border-border text-muted-foreground hover:text-primary hover:border-primary/30 transition-colors"
                   >
                     {skill}
                   </span>

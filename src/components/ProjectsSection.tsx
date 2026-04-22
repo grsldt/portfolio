@@ -9,7 +9,6 @@ const projects = [
     solution: "Plateforme SaaS qui génère automatiquement des vidéos optimisées pour TikTok grâce à l'IA.",
     result: "Automatisation complète de la création de contenu vidéo.",
     tags: ['IA', 'SaaS', 'Python'],
-    accent: true,
     inProgress: true,
     featured: true,
   },
@@ -20,7 +19,6 @@ const projects = [
     solution: "Bot intelligent qui gère les conversations automatiquement 24h/24.",
     result: "95% de temps gagné sur les réponses, engagement en hausse.",
     tags: ['IA', 'NLP', 'Python'],
-    accent: true,
     featured: true,
   },
   {
@@ -28,19 +26,17 @@ const projects = [
     subtitle: 'Automatisation achat-revente',
     problem: "Surveiller manuellement des milliers d'articles pour acheter avant la concurrence.",
     solution: "Bot qui surveille Vinted en temps réel et notifie les meilleures offres.",
-    result: "Accès prioritaire aux bonnes affaires, marges de revente augmentées.",
+    result: "Accès prioritaire aux bonnes affaires, marges augmentées.",
     tags: ['Python', 'Discord', 'Scraping'],
-    accent: false,
   },
   {
     title: 'BrandsCollectionBV',
     subtitle: 'Site vitrine professionnel',
-    problem: "Une entreprise internationale sans présence en ligne professionnelle.",
+    problem: "Une entreprise internationale sans présence en ligne.",
     solution: "Site web complet avec identité visuelle, SEO et design responsive.",
-    result: "Visibilité en ligne accrue, nouveaux partenaires commerciaux.",
+    result: "Visibilité en ligne accrue, nouveaux partenaires.",
     tags: ['React', 'SEO'],
     link: 'https://brandscollectionbv.com',
-    accent: false,
   },
   {
     title: 'FMCG Lead Scraper',
@@ -49,13 +45,12 @@ const projects = [
     solution: "Outil qui collecte et qualifie automatiquement des prospects.",
     result: "Pipeline de prospection entièrement automatisé.",
     tags: ['Python', 'API', 'Scraping'],
-    accent: false,
   },
 ];
 
 const cardVariants = {
   hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
 export default function ProjectsSection() {
@@ -71,7 +66,7 @@ export default function ProjectsSection() {
           viewport={{ once: true }}
           className="mb-14 text-center"
         >
-          <p className="text-primary text-sm font-medium mb-3">Résultats concrets</p>
+          <p className="text-primary text-xs font-mono tracking-widest mb-4">// RÉSULTATS CONCRETS</p>
           <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight">
             Projets réalisés
           </h2>
@@ -86,35 +81,35 @@ export default function ProjectsSection() {
               initial="hidden"
               whileInView="show"
               viewport={{ once: true }}
-              className="group rounded-xl bg-card border border-primary/20 hover:border-primary/40 transition-all duration-300 overflow-hidden"
+              className="terminal-card border-accent/20 hover:border-accent/35 transition-all duration-300 overflow-hidden"
             >
               {project.inProgress && (
-                <div className="px-4 py-1.5 bg-accent/10 text-accent text-xs font-medium text-center">
-                  🚀 En cours de développement
+                <div className="px-4 py-1.5 bg-accent/5 border-b border-accent/15 text-accent text-[10px] font-mono tracking-widest text-center">
+                  EN COURS DE DÉVELOPPEMENT
                 </div>
               )}
               <div className="p-6">
                 <h3 className="font-heading text-xl font-bold mb-1">{project.title}</h3>
-                <p className="text-xs text-muted-foreground mb-5">{project.subtitle}</p>
+                <p className="text-xs text-muted-foreground font-mono mb-5">{project.subtitle}</p>
 
                 <div className="space-y-4 mb-5">
-                  <div className="flex gap-3">
-                    <span className="text-xs font-medium text-destructive shrink-0 mt-0.5">Problème</span>
-                    <p className="text-sm text-muted-foreground">{project.problem}</p>
+                  <div>
+                    <span className="text-[10px] font-mono text-destructive/80 tracking-widest">PROBLÈME</span>
+                    <p className="text-sm text-muted-foreground mt-1">{project.problem}</p>
                   </div>
-                  <div className="flex gap-3">
-                    <span className="text-xs font-medium text-primary shrink-0 mt-0.5">Solution</span>
-                    <p className="text-sm text-muted-foreground">{project.solution}</p>
+                  <div>
+                    <span className="text-[10px] font-mono text-primary tracking-widest">SOLUTION</span>
+                    <p className="text-sm text-muted-foreground mt-1">{project.solution}</p>
                   </div>
-                  <div className="flex gap-3">
-                    <span className="text-xs font-medium text-green-400 shrink-0 mt-0.5">Résultat</span>
-                    <p className="text-sm text-foreground/80 font-medium">{project.result}</p>
+                  <div>
+                    <span className="text-[10px] font-mono text-accent tracking-widest">RÉSULTAT</span>
+                    <p className="text-sm text-foreground/80 font-medium mt-1">{project.result}</p>
                   </div>
                 </div>
 
                 <div className="flex flex-wrap gap-2 pt-4 border-t border-border">
                   {project.tags.map((tag) => (
-                    <span key={tag} className="text-xs px-2.5 py-1 rounded-md bg-secondary text-muted-foreground">{tag}</span>
+                    <span key={tag} className="text-[10px] font-mono px-2.5 py-1 border border-border text-muted-foreground tracking-wider">{tag}</span>
                   ))}
                 </div>
               </div>
@@ -131,21 +126,21 @@ export default function ProjectsSection() {
               initial="hidden"
               whileInView="show"
               viewport={{ once: true }}
-              className="group rounded-xl bg-card border border-border hover:border-primary/30 transition-all duration-300"
+              className="terminal-card hover:border-primary/30 transition-all duration-300"
             >
               <div className="p-5">
                 <h3 className="font-heading text-base font-bold mb-1">{project.title}</h3>
-                <p className="text-xs text-muted-foreground mb-3">{project.subtitle}</p>
+                <p className="text-[10px] text-muted-foreground font-mono mb-3">{project.subtitle}</p>
                 <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{project.solution}</p>
                 <div className="flex items-center justify-between pt-3 border-t border-border">
                   <div className="flex flex-wrap gap-1.5">
                     {project.tags.map((tag) => (
-                      <span key={tag} className="text-[11px] px-2 py-0.5 rounded bg-secondary text-muted-foreground">{tag}</span>
+                      <span key={tag} className="text-[10px] font-mono px-2 py-0.5 border border-border text-muted-foreground">{tag}</span>
                     ))}
                   </div>
                   {project.link && (
                     <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-                      <ExternalLink size={14} />
+                      <ExternalLink size={13} />
                     </a>
                   )}
                 </div>
@@ -163,7 +158,7 @@ export default function ProjectsSection() {
         >
           <a
             href="#contact"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg transition-all shadow-lg shadow-primary/20 group"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-bold text-sm tracking-wide transition-all glow-primary group"
           >
             Vous avez un projet similaire ?
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />

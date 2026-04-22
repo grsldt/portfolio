@@ -24,10 +24,10 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm"
+            className="inline-flex items-center gap-2.5 px-4 py-2 border border-primary/30 text-primary text-xs font-mono tracking-wider"
           >
-            <span className="size-2 rounded-full bg-primary animate-pulse" />
-            Freelance IT — Disponible
+            <span className="size-2 bg-primary animate-pulse" />
+            FREELANCE IT — DISPONIBLE
           </motion.div>
 
           {/* Title */}
@@ -47,7 +47,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
-            className="max-w-[55ch] text-lg md:text-xl text-muted-foreground leading-relaxed"
+            className="max-w-[55ch] text-lg text-muted-foreground leading-relaxed"
           >
             Chatbots IA, automatisation, applications web — livrés rapidement et efficacement.
           </motion.p>
@@ -57,13 +57,11 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.85 }}
-            className="flex flex-wrap justify-center gap-6"
+            className="flex flex-wrap justify-center gap-5"
           >
             {benefits.map(({ icon: Icon, text }) => (
               <div key={text} className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="p-1.5 rounded-md bg-primary/10">
-                  <Icon size={14} className="text-primary" />
-                </div>
+                <Icon size={14} className="text-primary" />
                 {text}
               </div>
             ))}
@@ -78,28 +76,28 @@ export default function HeroSection() {
           >
             <a
               href="#contact"
-              className="group px-8 py-4 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg transition-all duration-300 flex items-center gap-2 shadow-lg shadow-primary/20"
+              className="group px-8 py-4 bg-primary text-primary-foreground font-bold text-sm tracking-wide transition-all duration-300 flex items-center gap-2 glow-primary"
             >
               Discuter de mon projet
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </a>
             <a
               href="#services"
-              className="px-8 py-4 border border-border hover:border-primary/50 hover:text-primary rounded-lg transition-colors text-muted-foreground"
+              className="px-8 py-4 border border-primary/30 hover:border-primary hover:text-primary text-sm tracking-wide transition-colors text-muted-foreground"
             >
               Voir mes services
             </a>
           </motion.div>
 
-          {/* Tech stack subtle */}
+          {/* Tech stack */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.3 }}
-            className="pt-10 flex flex-wrap justify-center gap-3 text-xs text-muted-foreground/60"
+            className="pt-10 flex flex-wrap justify-center gap-3 text-xs font-mono text-muted-foreground/50"
           >
-            {['Python', 'React', 'Node.js', 'OpenAI', 'Docker'].map((tech) => (
-              <span key={tech} className="px-3 py-1.5 rounded-md bg-secondary/50 border border-border/50">{tech}</span>
+            {['PYTHON', 'REACT', 'NODE.JS', 'OPENAI', 'DOCKER'].map((tech) => (
+              <span key={tech} className="px-3 py-1.5 border border-border text-foreground/40 hover:text-primary hover:border-primary/30 transition-colors">{tech}</span>
             ))}
           </motion.div>
         </div>
@@ -115,7 +113,7 @@ export default function HeroSection() {
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="text-sm text-muted-foreground/30"
+          className="text-sm text-primary/30 font-mono"
         >
           ↓
         </motion.div>
