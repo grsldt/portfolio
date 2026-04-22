@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Music } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const navItems = [
   { label: 'Accueil', href: '#hero' },
@@ -34,6 +35,13 @@ export default function Navbar() {
               {item.label}
             </a>
           ))}
+          <Link
+            to="/melody"
+            className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-accent transition-colors duration-300"
+          >
+            <Music size={14} />
+            Melody Lab
+          </Link>
           <a
             href="#contact"
             className="px-5 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity"
@@ -64,6 +72,14 @@ export default function Navbar() {
                 {item.label}
               </a>
             ))}
+            <Link
+              to="/melody"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors"
+            >
+              <Music size={14} />
+              Melody Lab
+            </Link>
           </div>
         </motion.div>
       )}
