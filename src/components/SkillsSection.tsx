@@ -29,9 +29,9 @@ export default function SkillsSection() {
           viewport={{ once: true }}
           className="mb-14 text-center"
         >
-          <p className="text-primary text-xs font-mono tracking-widest mb-4">// TECHNOLOGIES</p>
+          <p className="text-primary text-xs font-mono tracking-widest mb-4">// STACK</p>
           <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight">
-            Stack technique
+            Technologies
           </h2>
         </motion.div>
 
@@ -43,10 +43,12 @@ export default function SkillsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: catIndex * 0.1 }}
-              className="terminal-card hover:border-primary/30 transition-colors"
+              className="terminal-card hover:border-primary/30 transition-colors overflow-hidden"
             >
-              <div className="px-5 py-3 border-b border-border">
-                <h3 className="text-xs font-mono font-bold text-primary tracking-widest">{cat.title.toUpperCase()}</h3>
+              <div className="terminal-bar">
+                <span className="size-1.5 bg-primary animate-pulse" />
+                <span>{cat.title.toLowerCase()}.module</span>
+                <span className="ml-auto text-foreground/15">{String(catIndex + 1).padStart(2, '0')}</span>
               </div>
               <div className="p-4 flex flex-wrap gap-2">
                 {cat.skills.map((skill) => (

@@ -13,7 +13,7 @@ const services = [
     ],
     result: "Un produit fonctionnel, prêt à être utilisé par vos clients.",
     highlight: true,
-    badge: 'Recommandé',
+    badge: 'RECOMMANDÉ',
   },
   {
     icon: Bot,
@@ -26,7 +26,7 @@ const services = [
     ],
     result: "Moins de travail manuel, gain de temps et augmentation des revenus.",
     highlight: true,
-    badge: 'Recommandé',
+    badge: 'RECOMMANDÉ',
   },
   {
     icon: Shield,
@@ -39,7 +39,7 @@ const services = [
     ],
     result: "Une infrastructure stable et sécurisée.",
     highlight: false,
-    badge: 'Missions simples · Tarifs adaptés',
+    badge: 'MISSIONS SIMPLES · TARIFS ADAPTÉS',
   },
 ];
 
@@ -47,7 +47,7 @@ const cardVariants = {
   hidden: { opacity: 0, y: 30 },
   show: (i: number) => ({
     opacity: 1, y: 0,
-    transition: { delay: i * 0.12, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] },
+    transition: { delay: i * 0.12, duration: 0.5 },
   }),
 };
 
@@ -61,7 +61,7 @@ export default function ServicesSection() {
           viewport={{ once: true }}
           className="mb-14 text-center"
         >
-          <p className="text-primary text-xs font-mono tracking-widest mb-4">// CE QUE JE PROPOSE</p>
+          <p className="text-primary text-xs font-mono tracking-widest mb-4">// SERVICES</p>
           <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight">
             Des solutions concrètes pour{' '}
             <span className="text-gradient">votre business</span>
@@ -81,13 +81,15 @@ export default function ServicesSection() {
                 viewport={{ once: true }}
                 className={`terminal-card ${service.highlight ? 'border-primary/25' : ''} hover:border-primary/40 transition-all duration-300 flex flex-col overflow-hidden`}
               >
-                {service.badge && (
-                  <div className={`px-4 py-1.5 text-[10px] font-mono tracking-widest text-center border-b ${
-                    service.highlight ? 'bg-primary/5 border-primary/15 text-primary' : 'bg-secondary border-border text-muted-foreground'
-                  }`}>
-                    {service.badge.toUpperCase()}
-                  </div>
-                )}
+                <div className={`terminal-bar ${service.highlight ? 'text-primary/70' : ''}`}>
+                  <span className={`size-1.5 ${service.highlight ? 'bg-primary' : 'bg-muted-foreground/30'} animate-pulse`} />
+                  <span>{service.title.toLowerCase().replace(/ & /g, '-')}.conf</span>
+                  {service.badge && (
+                    <span className={`ml-auto text-[9px] ${service.highlight ? 'text-primary' : 'text-muted-foreground'}`}>
+                      [{service.badge}]
+                    </span>
+                  )}
+                </div>
 
                 <div className="p-6 flex flex-col flex-1">
                   <div className={`p-3 border ${service.highlight ? 'border-primary/30 text-primary' : 'border-border text-muted-foreground'} w-fit mb-5`}>
