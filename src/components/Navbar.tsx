@@ -21,10 +21,9 @@ export default function Navbar() {
     >
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         <a href="#hero" className="font-heading text-xl font-bold text-gradient">
-          GS.
+          Speed Services
         </a>
 
-        {/* Desktop */}
         <div className="hidden md:flex items-center gap-8">
           {navItems.map((item) => (
             <a
@@ -43,13 +42,11 @@ export default function Navbar() {
           </a>
         </div>
 
-        {/* Mobile toggle */}
         <button className="md:hidden text-foreground" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
-      {/* Mobile menu */}
       {isOpen && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}

@@ -1,10 +1,15 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Mail, Phone, Github, MapPin, Send } from 'lucide-react';
+import { useRef } from 'react';
 
 export default function ContactSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const scale = useTransform(scrollYProgress, [0, 0.5], [0.9, 1]);
+
   return (
-    <section id="contact" className="py-24 px-6">
-      <div className="container mx-auto max-w-4xl">
+    <section id="contact" className="py-24 px-6" ref={sectionRef}>
+      <motion.div style={{ scale }} className="container mx-auto max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -15,13 +20,12 @@ export default function ContactSection() {
             Parlons de votre <span className="text-gradient">projet</span>
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            Un besoin en développement web, automatisation ou IA ? Contactez-moi pour en discuter.
+            Un besoin en développement, automatisation, cybersécurité ou IA ? Contactez-moi.
             Réponse sous 24h.
           </p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {/* Contact Info */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -71,7 +75,6 @@ export default function ContactSection() {
             </div>
           </motion.div>
 
-          {/* CTA Card */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -86,7 +89,7 @@ export default function ContactSection() {
               Décrivez-moi votre projet par email et recevez un devis gratuit sous 24h.
             </p>
             <a
-              href="mailto:gregsordel@icloud.com?subject=Demande%20de%20devis%20-%20Projet%20IT"
+              href="mailto:gregsordel@icloud.com?subject=Demande%20de%20devis%20-%20Speed%20Services"
               className="inline-flex items-center gap-2 px-8 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:opacity-90 transition-all glow-primary"
             >
               <Mail size={18} />
@@ -94,7 +97,7 @@ export default function ContactSection() {
             </a>
           </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
