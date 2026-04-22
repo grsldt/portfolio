@@ -2,13 +2,11 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useRef, useMemo, useEffect, useState } from 'react';
 import * as THREE from 'three';
 
-// Detect real mobile devices
 function useIsRealMobile() {
   if (typeof navigator === 'undefined') return false;
   return /Android|iPhone|iPod/i.test(navigator.userAgent) && 'ontouchstart' in window;
 }
 
-// Scroll progress hook
 function useScrollProgress() {
   const [progress, setProgress] = useState(0);
   useEffect(() => {
@@ -22,7 +20,6 @@ function useScrollProgress() {
   return progress;
 }
 
-// Mouse position hook
 function useMousePosition() {
   const mouse = useRef({ x: 0, y: 0 });
   useEffect(() => {
@@ -36,7 +33,6 @@ function useMousePosition() {
   return mouse;
 }
 
-// Single morphing blob that reacts to scroll + mouse
 function MorphBlob({ scrollProgress, mouse }: { scrollProgress: number; mouse: React.MutableRefObject<{ x: number; y: number }> }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
@@ -44,19 +40,16 @@ function MorphBlob({ scrollProgress, mouse }: { scrollProgress: number; mouse: R
   const uniforms = useMemo(() => ({
     uTime: { value: 0 },
     uScroll: { value: 0 },
-    uMouse: { value: new THREE.Vector2(0, 0) },
-    uColor1: { value: new THREE.Color('#3dffc4') },
-    uColor2: { value: new THREE.Color('#9966ff') },
+    uColor1: { value: new THREE.Color('#3dffc4').multiplyScalar(0.4) },
+    uColor2: { value: new THREE.Color('#9966ff').multiplyScalar(0.4) },
   }), []);
 
   const vertexShader = `
     varying vec3 vNormal;
-    varying vec3 vPosition;
     varying float vDisplacement;
     uniform float uTime;
     uniform float uScroll;
 
-    // Simplex-like noise
     vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
     vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
     vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
@@ -84,8 +77,8 @@ function MorphBlob({ scrollProgress, mouse }: { scrollProgress: number; mouse: R
       vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
       vec4 x_ = floor(j * ns.z);
       vec4 y_ = floor(j - 7.0 * x_);
-      vec4 x = x_ *ns.x + ns.yyyy;
-      vec4 y = y_ *ns.x + ns.yyyy;
+      vec4 x = x_ * ns.x + ns.yyyy;
+      vec4 y = y_ * ns.x + ns.yyyy;
       vec4 h = 1.0 - abs(x) - abs(y);
       vec4 b0 = vec4(x.xy, y.xy);
       vec4 b1 = vec4(x.zw, y.zw);
@@ -106,14 +99,11 @@ function MorphBlob({ scrollProgress, mouse }: { scrollProgress: number; mouse: R
     }
 
     void main() {
-      vNormal = normal;
-      vPosition = position;
-      
-      float noise = snoise(position * 1.5 + uTime * 0.3) * (0.15 + uScroll * 0.25);
-      float noise2 = snoise(position * 3.0 + uTime * 0.5) * 0.05;
+      vNormal = normalize(normalMatrix * normal);
+      float noise = snoise(position * 1.2 + uTime * 0.15) * (0.12 + uScroll * 0.15);
+      float noise2 = snoise(position * 2.5 + uTime * 0.25) * 0.04;
       float displacement = noise + noise2;
       vDisplacement = displacement;
-      
       vec3 newPosition = position + normal * displacement;
       gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
     }
@@ -121,7 +111,6 @@ function MorphBlob({ scrollProgress, mouse }: { scrollProgress: number; mouse: R
 
   const fragmentShader = `
     varying vec3 vNormal;
-    varying vec3 vPosition;
     varying float vDisplacement;
     uniform float uTime;
     uniform float uScroll;
@@ -129,12 +118,13 @@ function MorphBlob({ scrollProgress, mouse }: { scrollProgress: number; mouse: R
     uniform vec3 uColor2;
 
     void main() {
-      float fresnel = pow(1.0 - abs(dot(vNormal, vec3(0.0, 0.0, 1.0))), 2.5);
-      vec3 color = mix(uColor1, uColor2, vDisplacement * 3.0 + uScroll);
-      float alpha = fresnel * 0.6 + 0.1;
+      float fresnel = pow(1.0 - abs(dot(vNormal, vec3(0.0, 0.0, 1.0))), 3.0);
+      vec3 color = mix(uColor1, uColor2, vDisplacement * 4.0 + 0.5 + uScroll * 0.5);
       
-      // Add edge glow
-      color += fresnel * uColor1 * 0.5;
+      // Only show edges (wireframe-like glow)
+      float alpha = fresnel * 0.35;
+      // Inner fill very faint
+      alpha += 0.02;
       
       gl_FragColor = vec4(color, alpha);
     }
@@ -144,27 +134,20 @@ function MorphBlob({ scrollProgress, mouse }: { scrollProgress: number; mouse: R
     if (materialRef.current) {
       materialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
       materialRef.current.uniforms.uScroll.value = THREE.MathUtils.lerp(
-        materialRef.current.uniforms.uScroll.value,
-        scrollProgress,
-        0.05
-      );
-      materialRef.current.uniforms.uMouse.value.lerp(
-        new THREE.Vector2(mouse.current.x, mouse.current.y),
-        0.05
+        materialRef.current.uniforms.uScroll.value, scrollProgress, 0.03
       );
     }
     if (meshRef.current) {
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.08;
-      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.05) * 0.1;
-      // Subtle mouse follow
-      meshRef.current.position.x = THREE.MathUtils.lerp(meshRef.current.position.x, mouse.current.x * 0.3, 0.02);
-      meshRef.current.position.y = THREE.MathUtils.lerp(meshRef.current.position.y, mouse.current.y * 0.2, 0.02);
+      meshRef.current.rotation.y = state.clock.elapsedTime * 0.05;
+      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.03) * 0.15;
+      meshRef.current.position.x = THREE.MathUtils.lerp(meshRef.current.position.x, mouse.current.x * 0.4, 0.015);
+      meshRef.current.position.y = THREE.MathUtils.lerp(meshRef.current.position.y, mouse.current.y * 0.3, 0.015);
     }
   });
 
   return (
-    <mesh ref={meshRef}>
-      <icosahedronGeometry args={[1.8, 64]} />
+    <mesh ref={meshRef} position={[1.5, 0, 0]}>
+      <icosahedronGeometry args={[1.4, 48]} />
       <shaderMaterial
         ref={materialRef}
         vertexShader={vertexShader}
@@ -178,26 +161,38 @@ function MorphBlob({ scrollProgress, mouse }: { scrollProgress: number; mouse: R
   );
 }
 
-// Floating particles that drift slowly
-function Particles({ count = 200 }: { count?: number }) {
-  const ref = useRef<THREE.Points>(null);
-  
-  const { positions, sizes } = useMemo(() => {
-    const pos = new Float32Array(count * 3);
-    const sz = new Float32Array(count);
-    for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 20;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 20;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 15 - 3;
-      sz[i] = Math.random() * 2 + 0.5;
+// Wireframe ring orbiting
+function OrbitRing() {
+  const ref = useRef<THREE.Mesh>(null);
+  useFrame((state) => {
+    if (ref.current) {
+      ref.current.rotation.x = state.clock.elapsedTime * 0.06 + 0.5;
+      ref.current.rotation.z = state.clock.elapsedTime * 0.04;
     }
-    return { positions: pos, sizes: sz };
+  });
+  return (
+    <mesh ref={ref} position={[1.5, 0, 0]}>
+      <torusGeometry args={[2.2, 0.008, 16, 100]} />
+      <meshBasicMaterial color="#3dffc4" transparent opacity={0.12} />
+    </mesh>
+  );
+}
+
+function Particles({ count = 150 }: { count?: number }) {
+  const ref = useRef<THREE.Points>(null);
+  const positions = useMemo(() => {
+    const pos = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      pos[i * 3] = (Math.random() - 0.5) * 18;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 18;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 12 - 4;
+    }
+    return pos;
   }, [count]);
 
   useFrame((state) => {
     if (ref.current) {
-      ref.current.rotation.y = state.clock.elapsedTime * 0.01;
-      ref.current.rotation.x = state.clock.elapsedTime * 0.005;
+      ref.current.rotation.y = state.clock.elapsedTime * 0.008;
     }
   });
 
@@ -205,13 +200,12 @@ function Particles({ count = 200 }: { count?: number }) {
     <points ref={ref}>
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-        <bufferAttribute attach="attributes-size" args={[sizes, 1]} />
       </bufferGeometry>
       <pointsMaterial
-        size={0.02}
+        size={0.015}
         color="#3dffc4"
         transparent
-        opacity={0.4}
+        opacity={0.25}
         sizeAttenuation
         blending={THREE.AdditiveBlending}
         depthWrite={false}
@@ -220,15 +214,12 @@ function Particles({ count = 200 }: { count?: number }) {
   );
 }
 
-// Camera that subtly moves with scroll
 function ScrollCamera({ scrollProgress }: { scrollProgress: number }) {
   const { camera } = useThree();
-  
   useFrame(() => {
-    camera.position.z = THREE.MathUtils.lerp(camera.position.z, 4 + scrollProgress * 2, 0.03);
-    camera.position.y = THREE.MathUtils.lerp(camera.position.y, scrollProgress * -1, 0.03);
+    camera.position.z = THREE.MathUtils.lerp(camera.position.z, 5 + scrollProgress * 1.5, 0.02);
+    camera.position.y = THREE.MathUtils.lerp(camera.position.y, scrollProgress * -0.5, 0.02);
   });
-
   return null;
 }
 
@@ -240,21 +231,18 @@ export default function Scene3D() {
   return (
     <div className="fixed inset-0 -z-10">
       <Canvas
-        camera={{ position: [0, 0, 4], fov: 50 }}
+        camera={{ position: [0, 0, 5], fov: 45 }}
         dpr={isMobile ? [1, 1] : [1, 1.5]}
         performance={{ min: 0.5 }}
         gl={{ antialias: !isMobile, alpha: true, powerPreference: 'high-performance' }}
       >
-        <color attach="background" args={['#080b14']} />
-        <fog attach="fog" args={['#080b14', 5, 20]} />
-        
-        <ambientLight intensity={0.15} />
-        <pointLight position={[5, 5, 5]} intensity={0.3} color="#3dffc4" />
-        <pointLight position={[-5, -3, 3]} intensity={0.2} color="#9966ff" />
+        <color attach="background" args={['hsl(220, 20%, 4%)']} />
+        <fog attach="fog" args={['hsl(220, 20%, 4%)', 6, 22]} />
 
         <ScrollCamera scrollProgress={scrollProgress} />
         <MorphBlob scrollProgress={scrollProgress} mouse={mouse} />
-        <Particles count={isMobile ? 80 : 200} />
+        <OrbitRing />
+        <Particles count={isMobile ? 60 : 150} />
       </Canvas>
     </div>
   );
