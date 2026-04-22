@@ -42,7 +42,7 @@ function GridPlane() {
       depthWrite: false,
       uniforms: {
         uTime: { value: 0 },
-        uColor: { value: new THREE.Color('#3b82f6') },
+        uColor: { value: new THREE.Color('#00d4aa') },
       },
       vertexShader: `
         varying vec2 vUv;
@@ -110,7 +110,7 @@ function Particles({ count = 200, mouseRef }: { count?: number; mouseRef: React.
       </bufferGeometry>
       <pointsMaterial
         size={0.02}
-        color="#3b82f6"
+        color="#00d4aa"
         transparent
         opacity={0.35}
         sizeAttenuation
@@ -147,7 +147,7 @@ function AccentParticles({ count = 40 }: { count?: number }) {
       </bufferGeometry>
       <pointsMaterial
         size={0.025}
-        color="#7c3aed"
+        color="#9333ea"
         transparent
         opacity={0.25}
         sizeAttenuation
@@ -170,7 +170,7 @@ function ScanLine() {
   return (
     <mesh ref={ref} position={[0, 0, 1]}>
       <planeGeometry args={[20, 0.02]} />
-      <meshBasicMaterial color="#3b82f6" transparent opacity={0.06} blending={THREE.AdditiveBlending} />
+      <meshBasicMaterial color="#00d4aa" transparent opacity={0.06} blending={THREE.AdditiveBlending} />
     </mesh>
   );
 }
@@ -191,8 +191,8 @@ export default function Scene3D() {
         performance={{ min: 0.5 }}
         gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
       >
-        <color attach="background" args={['#0a0c14']} />
-        <fog attach="fog" args={['#0a0c14', 8, 20]} />
+        <color attach="background" args={['#070a0f']} />
+        <fog attach="fog" args={['#070a0f', 8, 20]} />
 
         <GridPlane />
         <Particles count={isMobile ? 80 : 200} mouseRef={mouse} />
