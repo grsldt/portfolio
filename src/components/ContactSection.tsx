@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Mail, Phone, Github, MapPin, Send } from 'lucide-react';
 import { useRef } from 'react';
+import MiniMelodyPlayer from './MiniMelodyPlayer';
 
 export default function ContactSection() {
   const sectionRef = useRef<HTMLElement>(null);
