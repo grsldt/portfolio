@@ -4,10 +4,9 @@ import { Menu, X, Music } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const navItems = [
-  { label: 'Accueil', href: '#hero' },
-  { label: 'Projets', href: '#projects' },
-  { label: 'Compétences', href: '#skills' },
-  { label: 'Contact', href: '#contact' },
+  { label: '// PROJETS', href: '#projects' },
+  { label: '// SKILLS', href: '#skills' },
+  { label: '// CONTACT', href: '#contact' },
 ];
 
 export default function Navbar() {
@@ -17,41 +16,46 @@ export default function Navbar() {
     <motion.nav
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
-      className="fixed top-0 left-0 right-0 z-50 glass"
+      transition={{ duration: 0.6 }}
+      className="fixed top-0 left-0 right-0 z-50 border-b border-primary/20 bg-background/80 backdrop-blur-md"
     >
-      <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#hero" className="font-heading text-xl font-bold text-gradient">
-          Speed Services
-        </a>
-
-        <div className="hidden md:flex items-center gap-8">
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300"
+      <div className="container mx-auto px-6 py-3 flex items-center justify-between text-xs tracking-widest">
+        <div className="flex items-center gap-6">
+          <a href="#hero" className="flex items-center gap-2 text-primary">
+            <span className="size-2 bg-primary animate-pulse" />
+            <span>SYS.ONLINE</span>
+          </a>
+          <div className="hidden md:flex gap-6 text-foreground/50">
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="hover:text-foreground transition-colors duration-300"
+              >
+                {item.label}
+              </a>
+            ))}
+            <Link
+              to="/melody"
+              className="flex items-center gap-1.5 text-foreground/50 hover:text-accent transition-colors duration-300"
             >
-              {item.label}
-            </a>
-          ))}
-          <Link
-            to="/melody"
-            className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-accent transition-colors duration-300"
-          >
-            <Music size={14} />
-            Melody Lab
-          </Link>
+              <Music size={12} />
+              // MELODY
+            </Link>
+          </div>
+        </div>
+
+        <div className="hidden md:block">
           <a
             href="#contact"
-            className="px-5 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity"
+            className="border border-primary/50 px-4 py-1.5 text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
           >
-            Me contacter
+            INITIATE_CONTACT
           </a>
         </div>
 
         <button className="md:hidden text-foreground" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+          {isOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
@@ -59,15 +63,15 @@ export default function Navbar() {
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          className="md:hidden glass border-t border-border/50"
+          className="md:hidden border-t border-primary/20 bg-background/95 backdrop-blur-md"
         >
-          <div className="container mx-auto px-6 py-4 flex flex-col gap-4">
+          <div className="px-6 py-4 flex flex-col gap-3 text-xs tracking-widest">
             {navItems.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
                 onClick={() => setIsOpen(false)}
-                className="text-muted-foreground hover:text-primary transition-colors"
+                className="text-foreground/50 hover:text-primary transition-colors py-2"
               >
                 {item.label}
               </a>
@@ -75,11 +79,18 @@ export default function Navbar() {
             <Link
               to="/melody"
               onClick={() => setIsOpen(false)}
-              className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors"
+              className="flex items-center gap-2 text-foreground/50 hover:text-accent transition-colors py-2"
             >
-              <Music size={14} />
-              Melody Lab
+              <Music size={12} />
+              // MELODY
             </Link>
+            <a
+              href="#contact"
+              onClick={() => setIsOpen(false)}
+              className="border border-primary/50 px-4 py-2 text-primary text-center mt-2"
+            >
+              INITIATE_CONTACT
+            </a>
           </div>
         </motion.div>
       )}
