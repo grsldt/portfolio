@@ -126,19 +126,19 @@ export default function HeroSection() {
               </div>
               <span className="text-[10px] text-foreground/30">root@speed:~#</span>
             </div>
-            <div className="p-5 flex flex-col gap-2.5 text-xs text-primary/70 normal-case font-mono">
-              <span className="text-foreground/30">$ nmap -sV target.local</span>
-              <span className="text-foreground/40">Starting scan... <span className="text-primary">[██████████]</span> 100%</span>
-              <span className="text-foreground/40">Open ports: <span className="text-accent">22</span>, <span className="text-accent">80</span>, <span className="text-accent">443</span>, <span className="text-accent">8080</span></span>
-              <span className="text-foreground/30 mt-1">$ cat /etc/speed/skills.conf</span>
-              <span className="text-foreground/50">web_dev=<span className="text-primary">enabled</span></span>
-              <span className="text-foreground/50">automation=<span className="text-primary">enabled</span></span>
-              <span className="text-foreground/50">cybersec=<span className="text-primary">enabled</span></span>
-              <span className="text-foreground/50">ai_ml=<span className="text-primary">enabled</span></span>
-              <span className="text-foreground/30 mt-1">$ systemctl status speed-services</span>
-              <span className="text-primary">● active (running)</span>
-              <span className="text-foreground/40">  Projets livrés: <span className="text-foreground">47+</span> | Uptime: <span className="text-foreground">99.9%</span></span>
-              <span className="text-foreground/30 mt-1">$ _<span className="animate-blink text-primary">█</span></span>
+            <div className="p-5 flex flex-col gap-2.5 text-xs normal-case font-mono">
+              <span className="text-foreground/60">$ nmap -sV target.local</span>
+              <span className="text-foreground/70">Starting scan... <span className="text-primary font-bold">[██████████]</span> 100%</span>
+              <span className="text-foreground/70">Open ports: <span className="text-accent font-bold">22</span>, <span className="text-accent font-bold">80</span>, <span className="text-accent font-bold">443</span>, <span className="text-accent font-bold">8080</span></span>
+              <span className="text-foreground/60 mt-1">$ cat /etc/speed/skills.conf</span>
+              <span className="text-foreground/80">web_dev=<span className="text-primary font-bold">enabled</span></span>
+              <span className="text-foreground/80">automation=<span className="text-primary font-bold">enabled</span></span>
+              <span className="text-foreground/80">cybersec=<span className="text-primary font-bold">enabled</span></span>
+              <span className="text-foreground/80">ai_ml=<span className="text-primary font-bold">enabled</span></span>
+              <span className="text-foreground/60 mt-1">$ systemctl status speed-services</span>
+              <span className="text-primary font-bold">● active (running)</span>
+              <span className="text-foreground/70">  Projets livrés: <span className="text-foreground font-bold">47+</span> | Uptime: <span className="text-foreground font-bold">99.9%</span></span>
+              <span className="text-foreground/60 mt-1">$ _<span className="animate-blink text-primary">█</span></span>
             </div>
           </div>
         </motion.div>
