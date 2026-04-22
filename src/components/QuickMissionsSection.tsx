@@ -2,10 +2,10 @@ import { motion } from 'framer-motion';
 import { Server, Shield, Bug, Wrench, ArrowRight } from 'lucide-react';
 
 const missions = [
-  { icon: Server, text: "Installation & configuration serveur" },
-  { icon: Shield, text: "Sécurisation de site web" },
+  { icon: Server, text: 'Installation & configuration serveur' },
+  { icon: Shield, text: 'Sécurisation de site web' },
   { icon: Wrench, text: "Automatisation simple d'une tâche" },
-  { icon: Bug, text: "Correction de bugs & maintenance" },
+  { icon: Bug, text: 'Correction de bugs & maintenance' },
 ];
 
 export default function QuickMissionsSection() {
@@ -16,15 +16,16 @@ export default function QuickMissionsSection() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="terminal-card border-accent/20 overflow-hidden"
+          className="terminal-card border-accent/20"
         >
-          <div className="terminal-bar">
-            <span className="size-1.5 bg-accent animate-pulse" />
-            <span>quick-missions</span>
-            <span className="ml-auto text-accent text-[9px]">[DISPONIBLE]</span>
+          <div className="terminal-bar text-accent/70 border-accent/15">
+            <span className="terminal-dot bg-accent animate-pulse" />
+            <span>quick_missions.sh</span>
+            <span className="ml-auto text-accent">[ACTIVE]</span>
           </div>
 
-          <div className="p-8 md:p-12 text-center">
+          <div className="relative z-10 p-8 md:p-12 text-center">
+            <p className="terminal-prompt text-accent/80 mb-4">&gt; MISSIONS RAPIDES</p>
             <h2 className="font-heading text-2xl md:text-3xl font-bold mb-3">
               Missions rapides disponibles
             </h2>
@@ -42,10 +43,12 @@ export default function QuickMissionsSection() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1 }}
-                    className="flex items-center gap-3 p-3 border border-border text-sm text-foreground/65"
+                    className="border border-primary/12 bg-secondary/30 p-3 text-sm text-foreground/68"
                   >
-                    <Icon size={16} className="text-accent shrink-0" />
-                    {m.text}
+                    <div className="flex items-center gap-3">
+                      <Icon size={16} className="text-accent shrink-0" />
+                      {m.text}
+                    </div>
                   </motion.div>
                 );
               })}
@@ -53,9 +56,9 @@ export default function QuickMissionsSection() {
 
             <a
               href="#contact"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-accent-foreground font-bold text-sm tracking-wide transition-all glow-accent group"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-accent-foreground font-mono text-xs tracking-[0.16em] transition-all glow-accent group"
             >
-              Me contacter pour une mission
+              ./mission_rapide
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </a>
           </div>
