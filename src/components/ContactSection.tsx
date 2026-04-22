@@ -80,22 +80,25 @@ export default function ContactSection() {
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="glass rounded-xl p-8 flex flex-col justify-center items-center text-center space-y-6"
+            className="glass rounded-xl p-8 flex flex-col justify-center items-center space-y-8"
           >
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
-              <Send size={28} className="text-primary" />
+            <MiniMelodyPlayer />
+
+            <div className="w-full border-t border-border/30 pt-6 flex flex-col items-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+                <Send size={22} className="text-primary" />
+              </div>
+              <p className="text-sm text-muted-foreground text-center">
+                Décrivez-moi votre projet par email et recevez un devis gratuit sous 24h.
+              </p>
+              <a
+                href="mailto:gregsordel@icloud.com?subject=Demande%20de%20devis%20-%20Speed%20Services"
+                className="inline-flex items-center gap-2 px-8 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:opacity-90 transition-all glow-primary"
+              >
+                <Mail size={18} />
+                Envoyer un email
+              </a>
             </div>
-            <h3 className="font-heading text-2xl font-bold">Prêt à démarrer ?</h3>
-            <p className="text-muted-foreground">
-              Décrivez-moi votre projet par email et recevez un devis gratuit sous 24h.
-            </p>
-            <a
-              href="mailto:gregsordel@icloud.com?subject=Demande%20de%20devis%20-%20Speed%20Services"
-              className="inline-flex items-center gap-2 px-8 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:opacity-90 transition-all glow-primary"
-            >
-              <Mail size={18} />
-              Envoyer un email
-            </a>
           </motion.div>
         </div>
       </motion.div>
