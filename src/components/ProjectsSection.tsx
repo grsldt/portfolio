@@ -1,5 +1,6 @@
-import { motion } from 'framer-motion';
-import { ExternalLink, Globe, Bot, Search, ShoppingBag, Sparkles } from 'lucide-react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { ExternalLink, Globe, Bot, Search, ShoppingBag, Sparkles, Shield, Radio } from 'lucide-react';
+import { useRef } from 'react';
 
 const projects = [
   {
@@ -44,6 +45,26 @@ const projects = [
     color: 'accent' as const,
   },
   {
+    title: 'Android Security Tool',
+    subtitle: 'Audit de sécurité mobile',
+    icon: Shield,
+    problem: "Besoin de tester la résilience d'appareils Android face à des vecteurs d'attaque courants dans un cadre de pentest autorisé.",
+    solution: "Développement d'un outil d'audit de sécurité mobile permettant l'analyse de vulnérabilités et la surveillance à distance de devices de test.",
+    result: "Outil fonctionnel utilisé dans des environnements de test contrôlés — identification de failles critiques.",
+    tags: ['Android Studio', 'Java', 'Cybersécurité', 'Pentest'],
+    color: 'primary' as const,
+  },
+  {
+    title: 'RF Signal Jammer',
+    subtitle: 'Projet hardware embarqué',
+    icon: Radio,
+    problem: "Étude des vulnérabilités des protocoles de communication sans fil 433 MHz dans un cadre de recherche en sécurité.",
+    solution: "Conception et assemblage d'un brouilleur de signal 433 MHz à base d'Arduino, avec firmware custom et antenne directionnelle.",
+    result: "Démonstration réussie des faiblesses des systèmes radio non chiffrés — projet éducatif et de recherche.",
+    tags: ['Arduino', 'Hardware', 'RF Security', 'Embedded'],
+    color: 'accent' as const,
+  },
+  {
     title: 'TikTok AI Video Creator',
     subtitle: 'Création vidéo IA — En cours',
     icon: Sparkles,
@@ -59,19 +80,29 @@ const projects = [
 const containerVariants = {
   hidden: {},
   show: {
-    transition: { staggerChildren: 0.15 },
+    transition: { staggerChildren: 0.12 },
   },
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  hidden: { opacity: 0, y: 60, rotateX: 8 },
+  show: { opacity: 1, y: 0, rotateX: 0, transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] } },
 };
 
 export default function ProjectsSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const backgroundY = useTransform(scrollYProgress, [0, 1], [100, -100]);
+
   return (
-    <section id="projects" className="py-24 px-6 relative">
-      <div className="container mx-auto">
+    <section id="projects" className="py-24 px-6 relative overflow-hidden" ref={sectionRef}>
+      {/* Parallax glow */}
+      <motion.div
+        style={{ y: backgroundY }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px] pointer-events-none"
+      />
+
+      <div className="container mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -91,69 +122,78 @@ export default function ProjectsSection() {
           variants={containerVariants}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.1 }}
           className="grid md:grid-cols-2 gap-6"
         >
           {projects.map((project) => {
             const Icon = project.icon;
+            const isPrimary = project.color === 'primary';
             return (
               <motion.div
                 key={project.title}
                 variants={cardVariants}
-                className={`group relative glass rounded-xl p-6 hover:border-${project.color}/30 transition-all duration-500 ${
+                className={`group relative glass rounded-xl p-6 transition-all duration-500 ${
                   project.inProgress ? 'md:col-span-2 md:max-w-2xl md:mx-auto' : ''
                 }`}
-                whileHover={{ y: -4 }}
+                whileHover={{ y: -6, scale: 1.01, transition: { duration: 0.3 } }}
+                style={{ perspective: 800 }}
               >
+                {/* Hover glow effect */}
+                <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
+                  isPrimary ? 'bg-primary/5' : 'bg-accent/5'
+                }`} />
+
                 {project.inProgress && (
                   <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium">
                     🚧 En cours
                   </div>
                 )}
 
-                <div className="flex items-start gap-4 mb-4">
-                  <div className={`p-3 rounded-lg bg-${project.color}/10 text-${project.color}`}>
-                    <Icon size={24} />
+                <div className="relative z-10">
+                  <div className="flex items-start gap-4 mb-4">
+                    <div className={`p-3 rounded-lg ${isPrimary ? 'bg-primary/10 text-primary' : 'bg-accent/10 text-accent'}`}>
+                      <Icon size={24} />
+                    </div>
+                    <div>
+                      <h3 className="font-heading text-xl font-bold">{project.title}</h3>
+                      <p className="text-sm text-muted-foreground">{project.subtitle}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-heading text-xl font-bold">{project.title}</h3>
-                    <p className="text-sm text-muted-foreground">{project.subtitle}</p>
-                  </div>
-                </div>
 
-                <div className="space-y-3 mb-4">
-                  <div>
-                    <span className="text-xs font-semibold text-primary uppercase tracking-wider">Problème</span>
-                    <p className="text-sm text-muted-foreground mt-1">{project.problem}</p>
+                  <div className="space-y-3 mb-4">
+                    <div>
+                      <span className="text-xs font-semibold text-primary uppercase tracking-wider">Problème</span>
+                      <p className="text-sm text-muted-foreground mt-1">{project.problem}</p>
+                    </div>
+                    <div>
+                      <span className="text-xs font-semibold text-accent uppercase tracking-wider">Solution</span>
+                      <p className="text-sm text-muted-foreground mt-1">{project.solution}</p>
+                    </div>
+                    <div>
+                      <span className="text-xs font-semibold text-primary uppercase tracking-wider">Résultat</span>
+                      <p className="text-sm text-muted-foreground mt-1">{project.result}</p>
+                    </div>
                   </div>
-                  <div>
-                    <span className="text-xs font-semibold text-accent uppercase tracking-wider">Solution</span>
-                    <p className="text-sm text-muted-foreground mt-1">{project.solution}</p>
-                  </div>
-                  <div>
-                    <span className="text-xs font-semibold text-primary uppercase tracking-wider">Résultat</span>
-                    <p className="text-sm text-muted-foreground mt-1">{project.result}</p>
-                  </div>
-                </div>
 
-                <div className="flex items-center justify-between">
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag) => (
-                      <span key={tag} className="text-xs px-2 py-1 rounded-md bg-secondary text-secondary-foreground">
-                        {tag}
-                      </span>
-                    ))}
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-wrap gap-2">
+                      {project.tags.map((tag) => (
+                        <span key={tag} className="text-xs px-2 py-1 rounded-md bg-secondary text-secondary-foreground">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    {project.link && (
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        <ExternalLink size={16} />
+                      </a>
+                    )}
                   </div>
-                  {project.link && (
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-primary transition-colors"
-                    >
-                      <ExternalLink size={16} />
-                    </a>
-                  )}
                 </div>
               </motion.div>
             );
