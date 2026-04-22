@@ -141,8 +141,6 @@ export default function HeroSection() {
               <span className="text-foreground/80 mt-1">$ _<span className="animate-blink text-primary">█</span></span>
             </div>
           </div>
-            </div>
-          </div>
         </motion.div>
       </motion.div>
 
