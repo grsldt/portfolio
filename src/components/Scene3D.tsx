@@ -2,7 +2,11 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, MeshDistortMaterial, Sphere, Torus, Icosahedron } from '@react-three/drei';
 import { useRef, useMemo } from 'react';
 import * as THREE from 'three';
-import { useIsMobile } from '@/hooks/use-mobile';
+// Detect actual mobile devices, not just small viewports (preview is ~766px but not mobile)
+function useIsRealMobile() {
+  if (typeof navigator === 'undefined') return false;
+  return /Android|iPhone|iPod/i.test(navigator.userAgent) && 'ontouchstart' in window;
+}
 
 function FloatingOrb({ position, color, speed = 1, distort = 0.4, size = 1 }: {
   position: [number, number, number];
@@ -134,7 +138,7 @@ function GlowSphere() {
 }
 
 export default function Scene3D() {
-  const isMobile = useIsMobile();
+  const isMobile = useIsRealMobile();
 
   return (
     <div className="fixed inset-0 -z-10">
