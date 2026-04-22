@@ -59,13 +59,11 @@ function GridPlane() {
           vec2 grid = abs(fract(vUv * 20.0 - 0.5) - 0.5) / fwidth(vUv * 20.0);
           float line = min(grid.x, grid.y);
           float alpha = 1.0 - min(line, 1.0);
-          alpha *= 0.08;
-          // Fade edges
+          alpha *= 0.12;
           float edgeFade = smoothstep(0.0, 0.3, vUv.x) * smoothstep(1.0, 0.7, vUv.x) 
                          * smoothstep(0.0, 0.3, vUv.y) * smoothstep(1.0, 0.7, vUv.y);
           alpha *= edgeFade;
-          // Pulse
-          alpha *= 0.7 + sin(uTime * 0.3 + vUv.y * 10.0) * 0.3;
+          alpha *= 0.85 + sin(uTime * 0.35 + vUv.y * 10.0) * 0.25;
           gl_FragColor = vec4(uColor, alpha);
         }
       `,
@@ -109,10 +107,10 @@ function Particles({ count = 200, mouseRef }: { count?: number; mouseRef: React.
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
       <pointsMaterial
-        size={0.02}
+        size={0.024}
         color="#00d4aa"
         transparent
-        opacity={0.35}
+        opacity={0.42}
         sizeAttenuation
         blending={THREE.AdditiveBlending}
         depthWrite={false}
@@ -149,7 +147,7 @@ function AccentParticles({ count = 40 }: { count?: number }) {
         size={0.025}
         color="#9333ea"
         transparent
-        opacity={0.25}
+        opacity={0.34}
         sizeAttenuation
         blending={THREE.AdditiveBlending}
         depthWrite={false}
@@ -170,7 +168,7 @@ function ScanLine() {
   return (
     <mesh ref={ref} position={[0, 0, 1]}>
       <planeGeometry args={[20, 0.02]} />
-      <meshBasicMaterial color="#00d4aa" transparent opacity={0.06} blending={THREE.AdditiveBlending} />
+      <meshBasicMaterial color="#00d4aa" transparent opacity={0.09} blending={THREE.AdditiveBlending} />
     </mesh>
   );
 }
