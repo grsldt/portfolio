@@ -1,4 +1,4 @@
-import Scene3D from '@/components/Scene3D';
+import AnimatedBackground from '@/components/AnimatedBackground';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import ProjectsSection from '@/components/ProjectsSection';
@@ -9,7 +9,7 @@ import Footer from '@/components/Footer';
 const Index = () => {
   return (
     <div className="relative min-h-screen noise">
-      <Scene3D />
+      <AnimatedBackground />
       <Navbar />
       <main>
         <HeroSection />
