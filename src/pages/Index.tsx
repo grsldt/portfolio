@@ -1,4 +1,4 @@
-import Scene3D from '@/components/Scene3D';
+import AnimatedBackground from '@/components/AnimatedBackground';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import ProjectsSection from '@/components/ProjectsSection';
