@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Music } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const navItems = [
   { label: 'Accueil', href: '#hero' },
