@@ -36,16 +36,12 @@ export default function SkillsSection() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-16"
+          className="mb-12"
         >
-          <div className="text-primary text-xs tracking-widest flex items-center gap-3 mb-6">
-            <div className="h-px w-8 bg-primary" />
-            PROTOCOLS
+          <div className="text-primary text-xs tracking-widest flex items-center gap-3 mb-4">
+            <span className="text-primary/50">$</span> cat /proc/skills
           </div>
-          <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight">
-            STACK{' '}
-            <span className="text-accent">TECHNIQUE</span>
-          </h2>
+          <p className="text-foreground/30 text-xs">loaded modules: {skillCategories.length}</p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -57,13 +53,14 @@ export default function SkillsSection() {
               initial="hidden"
               whileInView="show"
               viewport={{ once: true }}
-              className="bg-card border border-primary/10 hover:border-primary/30 transition-colors group"
+              className="terminal-block"
             >
-              <div className="border-b border-primary/10 px-4 py-3 flex items-center justify-between">
-                <h3 className="text-xs text-primary tracking-widest font-bold">{cat.title}</h3>
-                <span className="text-[10px] text-foreground/20">{String(catIndex + 1).padStart(2, '0')}</span>
+              <div className="terminal-header">
+                <span className="size-1.5 bg-primary animate-pulse" />
+                <span>{cat.title.toLowerCase()}.module</span>
+                <span className="ml-auto text-foreground/20">{String(catIndex + 1).padStart(2, '0')}</span>
               </div>
-              <div className="p-4 flex flex-wrap gap-2">
+              <div className="p-4 flex flex-wrap gap-1.5">
                 {cat.skills.map((skill, i) => (
                   <motion.span
                     key={skill}
@@ -71,7 +68,7 @@ export default function SkillsSection() {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: catIndex * 0.08 + i * 0.02 }}
-                    className="text-[11px] px-2.5 py-1 border border-foreground/10 text-foreground/60 hover:border-primary/40 hover:text-primary transition-colors cursor-default normal-case"
+                    className="text-[10px] px-2 py-0.5 border border-primary/15 text-primary/60 hover:border-primary/40 hover:text-primary transition-colors cursor-default normal-case"
                   >
                     {skill}
                   </motion.span>

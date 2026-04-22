@@ -1,11 +1,10 @@
 import { motion } from 'framer-motion';
-import { Code, Bot, Shield, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const services = [
   {
-    icon: Code,
+    cmd: 'cat dev.service',
     title: 'Développement & SaaS',
-    description: "Applications web performantes et plateformes SaaS clé en main.",
     items: [
       "Création d'applications web",
       "Développement SaaS",
@@ -15,21 +14,19 @@ const services = [
     badge: null,
   },
   {
-    icon: Bot,
+    cmd: 'cat ai.service',
     title: 'Automatisation & IA',
-    description: "Gagnez du temps et augmentez vos revenus grâce à l'intelligence artificielle.",
     items: [
       "Chatbots IA personnalisés",
       "Automatisation de tâches répétitives",
       "Intégration IA (OpenAI, etc.)",
     ],
     accent: true,
-    badge: 'PRIORITÉ',
+    badge: '★ PRIORITÉ',
   },
   {
-    icon: Shield,
+    cmd: 'cat security.service',
     title: 'Cybersécurité & Réseaux',
-    description: "Renforcez et maintenez vos infrastructures en toute sérénité.",
     items: [
       "Audit basique de sécurité",
       "Sécurisation de sites web",
@@ -57,66 +54,58 @@ export default function ServicesSection() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-16 text-center"
+          className="mb-12"
         >
-          <div className="text-primary text-xs tracking-widest flex items-center justify-center gap-3 mb-6">
-            <div className="h-px w-8 bg-primary" />
-            CE QUE JE PROPOSE
-            <div className="h-px w-8 bg-primary" />
+          <div className="text-primary text-xs tracking-widest flex items-center gap-3 mb-4">
+            <span className="text-primary/50">$</span> ls /etc/speed/services/
           </div>
-          <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight normal-case">
-            Mes <span className="text-accent">services</span>
-          </h2>
+          <p className="text-foreground/30 text-xs">total 3 — drwxr-xr-x</p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {services.map((service, i) => {
-            const Icon = service.icon;
-            return (
-              <motion.div
-                key={service.title}
-                custom={i}
-                variants={cardVariants}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                className={`relative bg-card border ${service.accent ? 'border-accent/30' : 'border-primary/10'} hover:border-primary/30 transition-all duration-300 flex flex-col`}
-              >
+        <div className="grid md:grid-cols-3 gap-4">
+          {services.map((service, i) => (
+            <motion.div
+              key={service.title}
+              custom={i}
+              variants={cardVariants}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              className="terminal-block flex flex-col"
+            >
+              <div className="terminal-header">
+                <span className={`size-1.5 ${service.accent ? 'bg-accent' : 'bg-primary'} animate-pulse`} />
+                <span>{service.cmd}</span>
                 {service.badge && (
-                  <div className={`absolute top-0 right-0 px-3 py-1 text-[10px] tracking-widest border-b border-l ${
-                    service.accent ? 'bg-accent/10 border-accent/20 text-accent' : 'bg-primary/10 border-primary/20 text-primary'
-                  }`}>
-                    {service.badge}
-                  </div>
+                  <span className={`ml-auto text-[9px] ${service.accent ? 'text-accent' : 'text-primary/60'}`}>
+                    [{service.badge}]
+                  </span>
                 )}
+              </div>
 
-                <div className="p-6 flex flex-col flex-1">
-                  <div className={`p-3 border ${service.accent ? 'border-accent/30 text-accent' : 'border-primary/30 text-primary'} w-fit mb-5`}>
-                    <Icon size={22} />
-                  </div>
+              <div className="p-5 flex flex-col flex-1">
+                <h3 className="text-sm font-bold tracking-tight mb-4 normal-case text-foreground">
+                  <span className="text-primary">#</span> {service.title}
+                </h3>
 
-                  <h3 className="font-heading text-lg font-bold tracking-tight mb-2 normal-case">{service.title}</h3>
-                  <p className="text-sm text-foreground/50 normal-case mb-5 leading-relaxed">{service.description}</p>
+                <ul className="space-y-2 mb-6 flex-1">
+                  {service.items.map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-xs text-foreground/50 normal-case">
+                      <span className="text-primary mt-0.5">▸</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
 
-                  <ul className="space-y-2.5 mb-6 flex-1">
-                    {service.items.map((item) => (
-                      <li key={item} className="flex items-start gap-2 text-sm text-foreground/70 normal-case">
-                        <span className="text-primary mt-1 text-xs">▸</span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-
-                  <a
-                    href="#contact"
-                    className="flex items-center gap-2 text-xs text-primary hover:text-accent transition-colors tracking-wider mt-auto"
-                  >
-                    EN SAVOIR PLUS <ArrowRight size={12} />
-                  </a>
-                </div>
-              </motion.div>
-            );
-          })}
+                <a
+                  href="#contact"
+                  className="flex items-center gap-2 text-[10px] text-primary/60 hover:text-primary transition-colors tracking-wider mt-auto"
+                >
+                  <span className="text-primary">$</span> more --info <ArrowRight size={10} />
+                </a>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

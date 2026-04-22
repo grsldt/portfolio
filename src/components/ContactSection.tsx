@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Mail, Phone, Github, MapPin, Send, ArrowRight } from 'lucide-react';
+import { Mail, ArrowRight } from 'lucide-react';
 
 export default function ContactSection() {
   return (
@@ -9,20 +9,12 @@ export default function ContactSection() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-16 text-center"
+          className="mb-12"
         >
-          <div className="text-primary text-xs tracking-widest flex items-center justify-center gap-3 mb-6">
-            <div className="h-px w-8 bg-primary" />
-            PRÊT À DÉMARRER
-            <div className="h-px w-8 bg-primary" />
+          <div className="text-primary text-xs tracking-widest flex items-center gap-3 mb-4">
+            <span className="text-primary/50">$</span> ssh contact@speed-services
           </div>
-          <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight normal-case">
-            Discutons de votre{' '}
-            <span className="text-accent">projet</span>
-          </h2>
-          <p className="text-sm text-foreground/50 normal-case mt-4 max-w-[50ch] mx-auto leading-relaxed">
-            Décrivez-moi votre besoin par email et recevez un devis gratuit sous 24h.
-          </p>
+          <p className="text-foreground/30 text-xs normal-case">Connection established. Awaiting input...</p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-4">
@@ -30,50 +22,44 @@ export default function ContactSection() {
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="bg-card border border-primary/10"
+            className="terminal-block"
           >
-            <div className="border-b border-primary/10 px-4 py-3">
-              <span className="text-xs text-primary tracking-widest">MES COORDONNÉES</span>
+            <div className="terminal-header">
+              <span className="size-1.5 bg-primary animate-pulse" />
+              <span>contact.conf</span>
             </div>
-            <div className="p-5 space-y-4">
-              <a href="mailto:gregsordel@icloud.com" className="flex items-center gap-4 group py-2 border-b border-foreground/5">
-                <div className="p-2 border border-primary/20 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                  <Mail size={16} />
-                </div>
-                <div className="normal-case">
-                  <p className="text-[10px] text-foreground/30 tracking-widest uppercase">EMAIL</p>
-                  <p className="text-sm text-foreground/80 group-hover:text-primary transition-colors">gregsordel@icloud.com</p>
-                </div>
-              </a>
-
-              <a href="tel:+33610643831" className="flex items-center gap-4 group py-2 border-b border-foreground/5">
-                <div className="p-2 border border-primary/20 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                  <Phone size={16} />
-                </div>
-                <div className="normal-case">
-                  <p className="text-[10px] text-foreground/30 tracking-widest uppercase">TÉLÉPHONE</p>
-                  <p className="text-sm text-foreground/80 group-hover:text-primary transition-colors">+33 6 10 64 38 31</p>
-                </div>
-              </a>
-
-              <a href="https://github.com/grsldt" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group py-2 border-b border-foreground/5">
-                <div className="p-2 border border-primary/20 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                  <Github size={16} />
-                </div>
-                <div className="normal-case">
-                  <p className="text-[10px] text-foreground/30 tracking-widest uppercase">GITHUB</p>
-                  <p className="text-sm text-foreground/80 group-hover:text-primary transition-colors">github.com/grsldt</p>
-                </div>
-              </a>
-
-              <div className="flex items-center gap-4 py-2">
-                <div className="p-2 border border-accent/20 text-accent">
-                  <MapPin size={16} />
-                </div>
-                <div className="normal-case">
-                  <p className="text-[10px] text-foreground/30 tracking-widest uppercase">LOCALISATION</p>
-                  <p className="text-sm text-foreground/80">Rennes · Vannes · Paris</p>
-                </div>
+            <div className="p-5 space-y-3 text-xs">
+              <div className="space-y-1.5">
+                <p>
+                  <span className="text-foreground/30">1</span>
+                  <span className="text-primary ml-3">email</span>
+                  <span className="text-foreground/30">=</span>
+                  <a href="mailto:gregsordel@icloud.com" className="text-foreground/70 hover:text-primary transition-colors normal-case">"gregsordel@icloud.com"</a>
+                </p>
+                <p>
+                  <span className="text-foreground/30">2</span>
+                  <span className="text-primary ml-3">phone</span>
+                  <span className="text-foreground/30">=</span>
+                  <a href="tel:+33610643831" className="text-foreground/70 hover:text-primary transition-colors normal-case">"+33 6 10 64 38 31"</a>
+                </p>
+                <p>
+                  <span className="text-foreground/30">3</span>
+                  <span className="text-primary ml-3">github</span>
+                  <span className="text-foreground/30">=</span>
+                  <a href="https://github.com/grsldt" target="_blank" rel="noopener noreferrer" className="text-foreground/70 hover:text-primary transition-colors normal-case">"github.com/grsldt"</a>
+                </p>
+                <p>
+                  <span className="text-foreground/30">4</span>
+                  <span className="text-primary ml-3">location</span>
+                  <span className="text-foreground/30">=</span>
+                  <span className="text-foreground/70 normal-case">"Rennes · Vannes · Paris"</span>
+                </p>
+                <p>
+                  <span className="text-foreground/30">5</span>
+                  <span className="text-primary ml-3">response_time</span>
+                  <span className="text-foreground/30">=</span>
+                  <span className="text-accent normal-case">"&lt;24h"</span>
+                </p>
               </div>
             </div>
           </motion.div>
@@ -82,31 +68,27 @@ export default function ContactSection() {
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="bg-card border border-primary/10 flex flex-col"
+            className="terminal-block flex flex-col"
           >
-            <div className="border-b border-primary/10 px-4 py-3">
-              <span className="text-xs text-primary tracking-widest">DÉMARRER</span>
+            <div className="terminal-header">
+              <span className="size-1.5 bg-accent animate-pulse" />
+              <span>start-project.sh</span>
             </div>
-            <div className="flex-1 p-5 flex flex-col items-center justify-center gap-6">
-              <div className="relative">
-                <div className="absolute -inset-4 border border-accent/10" />
-                <div className="absolute -inset-4 border border-primary/10 translate-x-1 translate-y-1" />
-                <div className="p-4 border border-primary/20 bg-secondary">
-                  <Send size={28} className="text-primary" />
-                </div>
+            <div className="flex-1 p-5 flex flex-col items-center justify-center gap-5">
+              <div className="text-xs text-foreground/40 text-center space-y-1 normal-case">
+                <p><span className="text-primary">$</span> ./start-project.sh</p>
+                <p className="text-foreground/30">Décrivez votre projet et recevez</p>
+                <p className="text-foreground/30">une proposition détaillée sous 24h.</p>
               </div>
-              <p className="text-sm text-foreground/50 text-center normal-case max-w-[30ch] leading-relaxed">
-                Décrivez votre projet et recevez une proposition détaillée sous 24h.
-              </p>
               <a
                 href="mailto:gregsordel@icloud.com?subject=Demande%20de%20devis%20-%20Speed%20Services"
-                className="group relative px-8 py-4 bg-primary text-primary-foreground font-bold text-sm tracking-wider overflow-hidden normal-case"
+                className="group relative px-6 py-3 bg-primary text-primary-foreground font-bold text-xs tracking-wider overflow-hidden normal-case"
               >
                 <span className="absolute inset-0 bg-accent -translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
                 <span className="relative group-hover:text-foreground transition-colors duration-300 flex items-center gap-2">
-                  <Mail size={16} />
-                  Discuter de mon projet
-                  <ArrowRight size={16} />
+                  <Mail size={14} />
+                  ./send --proposal
+                  <ArrowRight size={14} />
                 </span>
               </a>
             </div>
