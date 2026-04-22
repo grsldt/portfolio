@@ -118,27 +118,29 @@ export default function HeroSection() {
           <div className="absolute -inset-2 border border-accent/20 translate-x-2 translate-y-2 pointer-events-none hidden lg:block" />
           <div className="absolute -inset-2 border border-primary/20 -translate-x-2 -translate-y-2 pointer-events-none hidden lg:block" />
           
-          <div className="bg-card border border-primary/30">
-            <div className="h-8 border-b border-primary/20 bg-secondary flex items-center justify-between px-3">
+          <div className="bg-card border-2 border-primary/60 shadow-[0_0_30px_rgba(0,240,255,0.15)]">
+            <div className="h-8 border-b border-primary/40 bg-secondary flex items-center justify-between px-3">
               <div className="flex gap-2">
-                <div className="size-2 bg-accent/50" />
-                <div className="size-2 bg-primary/50" />
+                <div className="size-2 bg-accent" />
+                <div className="size-2 bg-primary" />
               </div>
-              <span className="text-[10px] text-foreground/30">root@speed:~#</span>
+              <span className="text-[10px] text-foreground/60 font-bold">root@speed:~#</span>
             </div>
-            <div className="p-5 flex flex-col gap-2.5 text-xs normal-case font-mono">
-              <span className="text-foreground/60">$ nmap -sV target.local</span>
-              <span className="text-foreground/70">Starting scan... <span className="text-primary font-bold">[██████████]</span> 100%</span>
-              <span className="text-foreground/70">Open ports: <span className="text-accent font-bold">22</span>, <span className="text-accent font-bold">80</span>, <span className="text-accent font-bold">443</span>, <span className="text-accent font-bold">8080</span></span>
-              <span className="text-foreground/60 mt-1">$ cat /etc/speed/skills.conf</span>
-              <span className="text-foreground/80">web_dev=<span className="text-primary font-bold">enabled</span></span>
-              <span className="text-foreground/80">automation=<span className="text-primary font-bold">enabled</span></span>
-              <span className="text-foreground/80">cybersec=<span className="text-primary font-bold">enabled</span></span>
-              <span className="text-foreground/80">ai_ml=<span className="text-primary font-bold">enabled</span></span>
-              <span className="text-foreground/60 mt-1">$ systemctl status speed-services</span>
-              <span className="text-primary font-bold">● active (running)</span>
-              <span className="text-foreground/70">  Projets livrés: <span className="text-foreground font-bold">47+</span> | Uptime: <span className="text-foreground font-bold">99.9%</span></span>
-              <span className="text-foreground/60 mt-1">$ _<span className="animate-blink text-primary">█</span></span>
+            <div className="p-5 flex flex-col gap-2.5 text-sm normal-case font-mono">
+              <span className="text-foreground/80">$ nmap -sV target.local</span>
+              <span className="text-foreground">Starting scan... <span className="text-primary font-bold">[██████████]</span> 100%</span>
+              <span className="text-foreground">Open ports: <span className="text-accent font-bold">22</span>, <span className="text-accent font-bold">80</span>, <span className="text-accent font-bold">443</span>, <span className="text-accent font-bold">8080</span></span>
+              <span className="text-foreground/80 mt-1">$ cat /etc/speed/skills.conf</span>
+              <span className="text-foreground">web_dev=<span className="text-primary font-bold">enabled</span></span>
+              <span className="text-foreground">automation=<span className="text-primary font-bold">enabled</span></span>
+              <span className="text-foreground">cybersec=<span className="text-primary font-bold">enabled</span></span>
+              <span className="text-foreground">ai_ml=<span className="text-primary font-bold">enabled</span></span>
+              <span className="text-foreground/80 mt-1">$ systemctl status speed-services</span>
+              <span className="text-primary font-bold text-base">● active (running)</span>
+              <span className="text-foreground">  Projets livrés: <span className="text-primary font-bold">47+</span> | Uptime: <span className="text-primary font-bold">99.9%</span></span>
+              <span className="text-foreground/80 mt-1">$ _<span className="animate-blink text-primary">█</span></span>
+            </div>
+          </div>
             </div>
           </div>
         </motion.div>
