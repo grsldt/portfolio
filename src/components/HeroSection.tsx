@@ -118,6 +118,7 @@ export default function HeroSection() {
           <div className="absolute -inset-2 border border-accent/20 translate-x-2 translate-y-2 pointer-events-none hidden lg:block" />
           <div className="absolute -inset-2 border border-primary/20 -translate-x-2 -translate-y-2 pointer-events-none hidden lg:block" />
           
+          <p className="text-[10px] text-foreground/40 tracking-widest mb-2">▸ APERÇU DE MES COMPÉTENCES</p>
           <div className="bg-card border-2 border-primary/60 shadow-[0_0_30px_rgba(0,240,255,0.15)]">
             <div className="h-8 border-b border-primary/40 bg-secondary flex items-center justify-between px-3">
               <div className="flex gap-2">
