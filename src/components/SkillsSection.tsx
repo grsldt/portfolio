@@ -2,76 +2,60 @@ import { motion } from 'framer-motion';
 
 const skillCategories = [
   {
-    title: 'LANGAGES',
-    skills: ['Python', 'JavaScript', 'TypeScript', 'Java', 'C', 'C++', 'PHP', 'SQL', 'HTML/CSS', 'Bash', 'Lua'],
+    title: 'Langages',
+    skills: ['Python', 'JavaScript', 'TypeScript', 'Java', 'C', 'C++', 'PHP', 'SQL', 'HTML/CSS', 'Bash'],
   },
   {
-    title: 'FRAMEWORKS',
-    skills: ['React', 'Node.js', 'Tailwind CSS', 'Flask', 'Express', 'Three.js', 'Framer Motion'],
+    title: 'Frameworks',
+    skills: ['React', 'Node.js', 'Tailwind CSS', 'Flask', 'Express', 'Three.js'],
   },
   {
-    title: 'SPÉCIALITÉS',
-    skills: ['Web Scraping', 'Bots', 'IA / NLP', 'Cybersécurité', 'Pentest', 'API REST', 'SEO', 'E-commerce', 'RF / Hardware'],
+    title: 'Spécialités',
+    skills: ['Web Scraping', 'Bots', 'IA / NLP', 'Cybersécurité', 'API REST', 'SEO'],
   },
   {
-    title: 'INFRA',
-    skills: ['Git', 'Linux', 'Docker', 'Android Studio', 'Arduino IDE', 'VirtualBox', 'Supabase', 'Firebase', 'Netlify', 'Vercel', 'Discord API', 'Figma'],
+    title: 'Infrastructure',
+    skills: ['Git', 'Linux', 'Docker', 'Supabase', 'Firebase', 'Vercel', 'Netlify'],
   },
 ];
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
-  show: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.1, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] },
-  }),
-};
 
 export default function SkillsSection() {
   return (
     <section id="skills" className="py-24 px-6 relative">
-      <div className="container mx-auto">
+      <div className="container mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-12"
+          className="mb-14 text-center"
         >
-          <div className="text-primary text-xs tracking-widest flex items-center gap-3 mb-4">
-            <span className="text-primary/50">$</span> cat /proc/skills
-          </div>
-          <p className="text-foreground/30 text-xs">loaded modules: {skillCategories.length}</p>
+          <p className="text-primary text-sm font-medium mb-3">Technologies</p>
+          <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight">
+            Stack technique
+          </h2>
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
           {skillCategories.map((cat, catIndex) => (
             <motion.div
               key={cat.title}
-              custom={catIndex}
-              variants={cardVariants}
-              initial="hidden"
-              whileInView="show"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="terminal-block"
+              transition={{ delay: catIndex * 0.1 }}
+              className="rounded-xl bg-card border border-border hover:border-primary/30 transition-colors"
             >
-              <div className="terminal-header">
-                <span className="size-1.5 bg-primary animate-pulse" />
-                <span>{cat.title.toLowerCase()}.module</span>
-                <span className="ml-auto text-foreground/20">{String(catIndex + 1).padStart(2, '0')}</span>
+              <div className="px-5 py-3 border-b border-border">
+                <h3 className="text-sm font-heading font-bold text-primary">{cat.title}</h3>
               </div>
-              <div className="p-4 flex flex-wrap gap-1.5">
-                {cat.skills.map((skill, i) => (
-                  <motion.span
+              <div className="p-4 flex flex-wrap gap-2">
+                {cat.skills.map((skill) => (
+                  <span
                     key={skill}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: catIndex * 0.08 + i * 0.02 }}
-                    className="text-[10px] px-2 py-0.5 border border-primary/15 text-primary/60 hover:border-primary/40 hover:text-primary transition-colors cursor-default normal-case"
+                    className="text-xs px-2.5 py-1 rounded-md bg-secondary border border-border text-muted-foreground hover:text-primary hover:border-primary/30 transition-colors"
                   >
                     {skill}
-                  </motion.span>
+                  </span>
                 ))}
               </div>
             </motion.div>

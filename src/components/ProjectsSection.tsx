@@ -4,57 +4,57 @@ import { ExternalLink, ArrowRight } from 'lucide-react';
 const projects = [
   {
     title: 'TikTok AI Video Creator',
-    cmd: 'cat tiktok-ai.log',
+    subtitle: 'SaaS IA — En cours de développement',
     problem: "Créer du contenu vidéo monétisable demande du temps et des compétences techniques.",
-    solution: "Plateforme SaaS qui génère automatiquement des vidéos optimisées pour l'algorithme TikTok grâce à l'IA.",
-    result: "En développement — Automatisation complète de la création de contenu vidéo.",
-    tags: ['IA', 'SAAS', 'PYTHON', 'VIDEO'],
+    solution: "Plateforme SaaS qui génère automatiquement des vidéos optimisées pour TikTok grâce à l'IA.",
+    result: "Automatisation complète de la création de contenu vidéo.",
+    tags: ['IA', 'SaaS', 'Python'],
     accent: true,
     inProgress: true,
     featured: true,
   },
   {
     title: 'Bot OnlyFans',
-    cmd: 'cat onlyfans-bot.log',
-    problem: "Répondre à des centaines de messages quotidiens manuellement.",
-    solution: "Bot de réponse automatique intelligent basé sur du NLP, conversations 24/7.",
-    result: "Temps de réponse réduit de 95%, engagement augmenté.",
-    tags: ['IA', 'NLP', 'API', 'PYTHON'],
+    subtitle: 'Automatisation IA',
+    problem: "Répondre manuellement à des centaines de messages par jour.",
+    solution: "Bot intelligent qui gère les conversations automatiquement 24h/24.",
+    result: "95% de temps gagné sur les réponses, engagement en hausse.",
+    tags: ['IA', 'NLP', 'Python'],
     accent: true,
     featured: true,
   },
   {
     title: 'Bot Vinted',
-    cmd: 'cat vinted-bot.log',
-    problem: "Surveiller manuellement des milliers d'articles.",
-    solution: "Bot qui scrape Vinted en temps réel, filtre par marque/prix, notifie via Discord.",
-    result: "Accès aux meilleures offres en premier.",
-    tags: ['PYTHON', 'API', 'DISCORD', 'SCRAPING'],
+    subtitle: 'Automatisation achat-revente',
+    problem: "Surveiller manuellement des milliers d'articles pour acheter avant la concurrence.",
+    solution: "Bot qui surveille Vinted en temps réel et notifie les meilleures offres.",
+    result: "Accès prioritaire aux bonnes affaires, marges de revente augmentées.",
+    tags: ['Python', 'Discord', 'Scraping'],
     accent: false,
   },
   {
     title: 'BrandsCollectionBV',
-    cmd: 'cat brands.log',
-    problem: "Entreprise FMCG sans présence en ligne.",
-    solution: "Site vitrine complet : identité visuelle, SEO, responsive.",
-    result: "Visibilité accrue, nouveaux partenaires.",
-    tags: ['REACT', 'SEO', 'BRANDING'],
+    subtitle: 'Site vitrine professionnel',
+    problem: "Une entreprise internationale sans présence en ligne professionnelle.",
+    solution: "Site web complet avec identité visuelle, SEO et design responsive.",
+    result: "Visibilité en ligne accrue, nouveaux partenaires commerciaux.",
+    tags: ['React', 'SEO'],
     link: 'https://brandscollectionbv.com',
     accent: false,
   },
   {
     title: 'FMCG Lead Scraper',
-    cmd: 'cat scraper.log',
-    problem: "Identifier les entreprises FMCG sans site web.",
-    solution: "Outil de scraping qui collecte et génère des prospects qualifiés automatiquement.",
-    result: "Pipeline de prospection automatisé.",
-    tags: ['PYTHON', 'GOOGLE_API', 'SCRAPING'],
+    subtitle: 'Prospection automatisée',
+    problem: "Trouver des entreprises sans site web parmi des milliers de résultats.",
+    solution: "Outil qui collecte et qualifie automatiquement des prospects.",
+    result: "Pipeline de prospection entièrement automatisé.",
+    tags: ['Python', 'API', 'Scraping'],
     accent: false,
   },
 ];
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 30 },
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] } },
 };
 
@@ -69,16 +69,16 @@ export default function ProjectsSection() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-12"
+          className="mb-14 text-center"
         >
-          <div className="text-primary text-xs tracking-widest flex items-center gap-3 mb-4">
-            <span className="text-primary/50">$</span> ls -la /var/log/projects/
-          </div>
-          <p className="text-foreground/30 text-xs">total {projects.length} — case studies</p>
+          <p className="text-primary text-sm font-medium mb-3">Résultats concrets</p>
+          <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight">
+            Projets réalisés
+          </h2>
         </motion.div>
 
         {/* Featured */}
-        <div className="grid md:grid-cols-2 gap-4 mb-4">
+        <div className="grid md:grid-cols-2 gap-5 mb-5">
           {featured.map((project) => (
             <motion.div
               key={project.title}
@@ -86,36 +86,35 @@ export default function ProjectsSection() {
               initial="hidden"
               whileInView="show"
               viewport={{ once: true }}
-              className="terminal-block"
+              className="group rounded-xl bg-card border border-primary/20 hover:border-primary/40 transition-all duration-300 overflow-hidden"
             >
-              <div className="terminal-header">
-                <span className="size-1.5 bg-accent animate-pulse" />
-                <span>{project.cmd}</span>
-                {project.inProgress && (
-                  <span className="ml-auto text-accent text-[9px]">[RUNNING]</span>
-                )}
-              </div>
-              <div className="p-5">
-                <h3 className="text-base font-bold tracking-tight normal-case text-foreground mb-4">
-                  <span className="text-accent">#</span> {project.title}
-                </h3>
-                <div className="space-y-3 mb-4 text-xs normal-case">
-                  <div className="pl-3 border-l border-accent/20">
-                    <span className="text-[10px] text-accent/60 tracking-widest">ERROR:</span>
-                    <p className="text-foreground/50 mt-0.5">{project.problem}</p>
+              {project.inProgress && (
+                <div className="px-4 py-1.5 bg-accent/10 text-accent text-xs font-medium text-center">
+                  🚀 En cours de développement
+                </div>
+              )}
+              <div className="p-6">
+                <h3 className="font-heading text-xl font-bold mb-1">{project.title}</h3>
+                <p className="text-xs text-muted-foreground mb-5">{project.subtitle}</p>
+
+                <div className="space-y-4 mb-5">
+                  <div className="flex gap-3">
+                    <span className="text-xs font-medium text-destructive shrink-0 mt-0.5">Problème</span>
+                    <p className="text-sm text-muted-foreground">{project.problem}</p>
                   </div>
-                  <div className="pl-3 border-l border-primary/30">
-                    <span className="text-[10px] text-primary/60 tracking-widest">FIX:</span>
-                    <p className="text-foreground/50 mt-0.5">{project.solution}</p>
+                  <div className="flex gap-3">
+                    <span className="text-xs font-medium text-primary shrink-0 mt-0.5">Solution</span>
+                    <p className="text-sm text-muted-foreground">{project.solution}</p>
                   </div>
-                  <div className="pl-3 border-l border-primary/30">
-                    <span className="text-[10px] text-primary tracking-widest">OUTPUT:</span>
-                    <p className="text-foreground/70 mt-0.5 font-medium">{project.result}</p>
+                  <div className="flex gap-3">
+                    <span className="text-xs font-medium text-green-400 shrink-0 mt-0.5">Résultat</span>
+                    <p className="text-sm text-foreground/80 font-medium">{project.result}</p>
                   </div>
                 </div>
-                <div className="flex flex-wrap gap-1.5 border-t border-primary/10 pt-3">
+
+                <div className="flex flex-wrap gap-2 pt-4 border-t border-border">
                   {project.tags.map((tag) => (
-                    <span key={tag} className="text-[9px] px-2 py-0.5 border border-primary/15 text-primary/50 tracking-widest">{tag}</span>
+                    <span key={tag} className="text-xs px-2.5 py-1 rounded-md bg-secondary text-muted-foreground">{tag}</span>
                   ))}
                 </div>
               </div>
@@ -132,26 +131,21 @@ export default function ProjectsSection() {
               initial="hidden"
               whileInView="show"
               viewport={{ once: true }}
-              className="terminal-block"
+              className="group rounded-xl bg-card border border-border hover:border-primary/30 transition-all duration-300"
             >
-              <div className="terminal-header">
-                <span className="size-1.5 bg-primary/50" />
-                <span>{project.cmd}</span>
-              </div>
-              <div className="p-4">
-                <h3 className="text-sm font-bold tracking-tight normal-case text-foreground mb-2">
-                  <span className="text-primary">#</span> {project.title}
-                </h3>
-                <p className="text-[11px] text-foreground/40 normal-case mb-3 leading-relaxed">{project.solution}</p>
-                <div className="flex items-center justify-between border-t border-primary/10 pt-3">
-                  <div className="flex flex-wrap gap-1">
-                    {project.tags.slice(0, 3).map((tag) => (
-                      <span key={tag} className="text-[9px] px-1.5 py-0.5 border border-primary/10 text-primary/40 tracking-widest">{tag}</span>
+              <div className="p-5">
+                <h3 className="font-heading text-base font-bold mb-1">{project.title}</h3>
+                <p className="text-xs text-muted-foreground mb-3">{project.subtitle}</p>
+                <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{project.solution}</p>
+                <div className="flex items-center justify-between pt-3 border-t border-border">
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.tags.map((tag) => (
+                      <span key={tag} className="text-[11px] px-2 py-0.5 rounded bg-secondary text-muted-foreground">{tag}</span>
                     ))}
                   </div>
                   {project.link && (
-                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-foreground/20 hover:text-primary transition-colors">
-                      <ExternalLink size={12} />
+                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                      <ExternalLink size={14} />
                     </a>
                   )}
                 </div>
@@ -165,17 +159,14 @@ export default function ProjectsSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-10 text-center"
+          className="mt-12 text-center"
         >
           <a
             href="#contact"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-bold text-xs tracking-wider normal-case group overflow-hidden relative"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg transition-all shadow-lg shadow-primary/20 group"
           >
-            <span className="absolute inset-0 bg-accent -translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
-            <span className="relative group-hover:text-foreground transition-colors duration-300 flex items-center gap-2">
-              ./request --similar-project
-              <ArrowRight size={14} />
-            </span>
+            Vous avez un projet similaire ?
+            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </a>
         </motion.div>
       </div>
