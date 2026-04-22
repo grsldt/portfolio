@@ -1,3 +1,9 @@
-# Welcome to your Lovable project
+POUR LANCER LE FRONT 
 
-TODO: Document your project here
+
+npm install
+npm run dev
+
+
+
+L'app sera dispo sur http://localhost:8080
