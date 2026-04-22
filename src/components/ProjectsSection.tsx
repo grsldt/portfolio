@@ -24,7 +24,7 @@ const projects = [
   {
     title: 'Bot Vinted',
     subtitle: 'Automatisation achat-revente',
-    problem: "Surveiller manuellement des milliers d'articles pour acheter avant la concurrence.",
+    problem: "Surveiller manuellement des milliers d'articles.",
     solution: "Bot qui surveille Vinted en temps réel et notifie les meilleures offres.",
     result: "Accès prioritaire aux bonnes affaires, marges augmentées.",
     tags: ['Python', 'Discord', 'Scraping'],
@@ -32,9 +32,9 @@ const projects = [
   {
     title: 'BrandsCollectionBV',
     subtitle: 'Site vitrine professionnel',
-    problem: "Une entreprise internationale sans présence en ligne.",
+    problem: "Entreprise internationale sans présence en ligne.",
     solution: "Site web complet avec identité visuelle, SEO et design responsive.",
-    result: "Visibilité en ligne accrue, nouveaux partenaires.",
+    result: "Visibilité accrue, nouveaux partenaires.",
     tags: ['React', 'SEO'],
     link: 'https://brandscollectionbv.com',
   },
@@ -66,9 +66,9 @@ export default function ProjectsSection() {
           viewport={{ once: true }}
           className="mb-14 text-center"
         >
-          <p className="text-primary text-xs font-mono tracking-widest mb-4">// RÉSULTATS CONCRETS</p>
+          <p className="text-primary text-xs font-mono tracking-widest mb-4">// PROJETS</p>
           <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight">
-            Projets réalisés
+            Résultats concrets
           </h2>
         </motion.div>
 
@@ -83,11 +83,13 @@ export default function ProjectsSection() {
               viewport={{ once: true }}
               className="terminal-card border-accent/20 hover:border-accent/35 transition-all duration-300 overflow-hidden"
             >
-              {project.inProgress && (
-                <div className="px-4 py-1.5 bg-accent/5 border-b border-accent/15 text-accent text-[10px] font-mono tracking-widest text-center">
-                  EN COURS DE DÉVELOPPEMENT
-                </div>
-              )}
+              <div className="terminal-bar">
+                <span className="size-1.5 bg-accent animate-pulse" />
+                <span>{project.title.toLowerCase().replace(/ /g, '-')}.log</span>
+                {project.inProgress && (
+                  <span className="ml-auto text-accent text-[9px]">[EN COURS]</span>
+                )}
+              </div>
               <div className="p-6">
                 <h3 className="font-heading text-xl font-bold mb-1">{project.title}</h3>
                 <p className="text-xs text-muted-foreground font-mono mb-5">{project.subtitle}</p>
@@ -128,6 +130,10 @@ export default function ProjectsSection() {
               viewport={{ once: true }}
               className="terminal-card hover:border-primary/30 transition-all duration-300"
             >
+              <div className="terminal-bar">
+                <span className="size-1.5 bg-primary/40" />
+                <span>{project.title.toLowerCase().replace(/ /g, '-')}.log</span>
+              </div>
               <div className="p-5">
                 <h3 className="font-heading text-base font-bold mb-1">{project.title}</h3>
                 <p className="text-[10px] text-muted-foreground font-mono mb-3">{project.subtitle}</p>
@@ -149,7 +155,6 @@ export default function ProjectsSection() {
           ))}
         </div>
 
-        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

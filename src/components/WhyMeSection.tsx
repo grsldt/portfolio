@@ -37,7 +37,6 @@ export default function WhyMeSection() {
           </h2>
         </motion.div>
 
-        {/* Reasons */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
           {reasons.map((r, i) => {
             const Icon = r.icon;
@@ -60,7 +59,7 @@ export default function WhyMeSection() {
           })}
         </div>
 
-        {/* Testimonials */}
+        <div className="text-primary text-xs font-mono tracking-widest text-center mb-6">// TÉMOIGNAGES</div>
         <div className="grid md:grid-cols-2 gap-5">
           {testimonials.map((t, i) => (
             <motion.div
@@ -69,23 +68,28 @@ export default function WhyMeSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.15 }}
-              className="terminal-card p-6"
+              className="terminal-card overflow-hidden"
             >
-              <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, j) => (
-                  <Star key={j} size={13} className="text-accent fill-accent" />
-                ))}
+              <div className="terminal-bar">
+                <span className="size-1.5 bg-accent" />
+                <span>review-{i + 1}.log</span>
+                <span className="ml-auto flex gap-0.5">
+                  {[...Array(5)].map((_, j) => (
+                    <Star key={j} size={8} className="text-accent fill-accent" />
+                  ))}
+                </span>
               </div>
-              <p className="text-sm text-foreground/65 leading-relaxed italic mb-4">"{t.quote}"</p>
-              <div className="border-t border-border pt-3">
-                <p className="text-sm font-semibold">{t.author}</p>
-                <p className="text-xs text-muted-foreground">{t.role}</p>
+              <div className="p-6">
+                <p className="text-sm text-foreground/65 leading-relaxed italic mb-4">"{t.quote}"</p>
+                <div className="border-t border-border pt-3">
+                  <p className="text-sm font-semibold">{t.author}</p>
+                  <p className="text-xs text-muted-foreground">{t.role}</p>
+                </div>
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

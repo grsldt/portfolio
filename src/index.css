@@ -7,13 +7,13 @@
 @layer base {
   :root {
     --background: 220 25% 3%;
-    --foreground: 0 0% 92%;
+    --foreground: 0 0% 90%;
 
-    --card: 220 20% 6%;
-    --card-foreground: 0 0% 92%;
+    --card: 220 20% 5.5%;
+    --card-foreground: 0 0% 90%;
 
-    --popover: 220 20% 6%;
-    --popover-foreground: 0 0% 92%;
+    --popover: 220 20% 5.5%;
+    --popover-foreground: 0 0% 90%;
 
     --primary: 170 100% 45%;
     --primary-foreground: 220 25% 3%;
@@ -34,7 +34,7 @@
     --input: 220 15% 12%;
     --ring: 170 100% 45%;
 
-    --radius: 0.25rem;
+    --radius: 0rem;
 
     --cyan: 170 100% 45%;
     --magenta: 280 80% 55%;
@@ -111,6 +111,10 @@
     content: '';
     @apply absolute top-0 left-0 right-0 h-px;
     background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.3), transparent);
+  }
+
+  .terminal-bar {
+    @apply border-b border-primary/15 px-4 py-2 flex items-center gap-2 text-[10px] font-mono text-primary/50 tracking-widest;
   }
 }
 

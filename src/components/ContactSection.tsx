@@ -21,14 +21,17 @@ export default function ContactSection() {
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-5">
-          {/* Contact info */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="terminal-card"
+            className="terminal-card overflow-hidden"
           >
-            <div className="p-6 space-y-3">
+            <div className="terminal-bar">
+              <span className="size-1.5 bg-primary animate-pulse" />
+              <span>contact.conf</span>
+            </div>
+            <div className="p-5 space-y-3">
               {[
                 { icon: Mail, label: 'Email', value: 'gregsordel@icloud.com', href: 'mailto:gregsordel@icloud.com' },
                 { icon: Phone, label: 'Téléphone', value: '+33 6 10 64 38 31', href: 'tel:+33610643831' },
@@ -37,7 +40,7 @@ export default function ContactSection() {
                 const Icon = item.icon;
                 return (
                   <a key={item.label} href={item.href} target={item.external ? '_blank' : undefined} rel="noopener noreferrer" className="flex items-center gap-4 group p-3 hover:bg-secondary/50 transition-colors">
-                    <div className="p-2.5 border border-primary/20 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                    <div className="p-2 border border-primary/20 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                       <Icon size={16} />
                     </div>
                     <div>
@@ -48,7 +51,7 @@ export default function ContactSection() {
                 );
               })}
               <div className="flex items-center gap-4 p-3">
-                <div className="p-2.5 border border-accent/20 text-accent">
+                <div className="p-2 border border-accent/20 text-accent">
                   <MapPin size={16} />
                 </div>
                 <div>
@@ -59,12 +62,11 @@ export default function ContactSection() {
             </div>
           </motion.div>
 
-          {/* CTA card */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="terminal-card border-primary/20 flex flex-col items-center justify-center p-8 text-center"
+            className="terminal-card border-primary/20 flex flex-col items-center justify-center p-8 text-center overflow-hidden"
           >
             <div className="p-4 border border-primary/20 mb-6">
               <Mail size={28} className="text-primary" />

@@ -3,9 +3,9 @@ import { Music } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="border-t border-border py-8 px-6">
+    <footer className="border-t border-primary/10 py-8 px-6">
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
-        <p className="font-mono tracking-wider">© {new Date().getFullYear()} SPEED SERVICES — GRÉGORY SORDELET</p>
+        <p className="font-mono tracking-wider">© {new Date().getFullYear()} SPEED_SERVICES — GRÉGORY_SORDELET</p>
         <Link
           to="/melody"
           className="flex items-center gap-2 hover:text-primary transition-colors"
@@ -13,7 +13,7 @@ export default function Footer() {
           <Music size={13} />
           Melody Lab
         </Link>
-        <p>Rennes · Vannes · Paris</p>
+        <p className="font-mono tracking-wider">RENNES · VANNES · PARIS</p>
       </div>
     </footer>
   );

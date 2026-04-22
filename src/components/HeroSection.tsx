@@ -97,13 +97,12 @@ export default function HeroSection() {
             className="pt-10 flex flex-wrap justify-center gap-3 text-xs font-mono text-muted-foreground/50"
           >
             {['PYTHON', 'REACT', 'NODE.JS', 'OPENAI', 'DOCKER'].map((tech) => (
-              <span key={tech} className="px-3 py-1.5 border border-border text-foreground/40 hover:text-primary hover:border-primary/30 transition-colors">{tech}</span>
+              <span key={tech} className="px-3 py-1.5 border border-primary/10 text-foreground/40 hover:text-primary hover:border-primary/30 transition-colors">{tech}</span>
             ))}
           </motion.div>
         </div>
       </motion.div>
 
-      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
