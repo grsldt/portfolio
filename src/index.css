@@ -6,39 +6,39 @@
 
 @layer base {
   :root {
-    --background: 220 25% 3%;
+    --background: 220 28% 2.5%;
     --foreground: 0 0% 92%;
 
-    --card: 220 20% 6%;
+    --card: 220 24% 5%;
     --card-foreground: 0 0% 92%;
 
-    --popover: 220 20% 6%;
+    --popover: 220 24% 5%;
     --popover-foreground: 0 0% 92%;
 
-    --primary: 170 100% 45%;
-    --primary-foreground: 220 25% 3%;
+    --primary: 168 100% 46%;
+    --primary-foreground: 220 28% 2.5%;
 
-    --secondary: 220 15% 9%;
-    --secondary-foreground: 220 10% 65%;
+    --secondary: 220 16% 8%;
+    --secondary-foreground: 220 8% 68%;
 
-    --muted: 220 15% 9%;
-    --muted-foreground: 220 10% 40%;
+    --muted: 220 16% 8%;
+    --muted-foreground: 220 10% 44%;
 
-    --accent: 280 80% 55%;
+    --accent: 292 82% 60%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 15% 14%;
-    --input: 220 15% 12%;
-    --ring: 170 100% 45%;
+    --border: 168 65% 18%;
+    --input: 220 16% 10%;
+    --ring: 168 100% 46%;
 
-    --radius: 0.25rem;
+    --radius: 0rem;
 
-    --cyan: 170 100% 45%;
-    --magenta: 280 80% 55%;
-    --dim: 220 15% 12%;
+    --cyan: 168 100% 46%;
+    --magenta: 292 82% 60%;
+    --dim: 220 16% 11%;
   }
 }
 
@@ -47,13 +47,21 @@
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', sans-serif;
+    background-image:
+      radial-gradient(circle at top, hsl(var(--primary) / 0.08), transparent 32%),
+      radial-gradient(circle at 80% 20%, hsl(var(--accent) / 0.06), transparent 24%);
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0;
   }
 
   code, .font-mono {
@@ -63,13 +71,17 @@
 
 @layer utilities {
   .glow-primary {
-    box-shadow: 0 0 25px -8px hsl(var(--primary) / 0.3),
-                0 0 60px -15px hsl(var(--primary) / 0.1);
+    box-shadow:
+      0 0 18px hsl(var(--primary) / 0.18),
+      0 0 48px hsl(var(--primary) / 0.08),
+      inset 0 0 0 1px hsl(var(--primary) / 0.08);
   }
 
   .glow-accent {
-    box-shadow: 0 0 25px -8px hsl(var(--accent) / 0.3),
-                0 0 60px -15px hsl(var(--accent) / 0.1);
+    box-shadow:
+      0 0 18px hsl(var(--accent) / 0.18),
+      0 0 48px hsl(var(--accent) / 0.08),
+      inset 0 0 0 1px hsl(var(--accent) / 0.08);
   }
 
   .text-gradient {
@@ -78,18 +90,18 @@
   }
 
   .glass {
-    @apply bg-card/70 backdrop-blur-xl border border-primary/10;
+    @apply bg-card/75 backdrop-blur-xl border border-primary/10;
   }
 
   .noise {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   }
 
   .grid-bg {
     background-image:
-      linear-gradient(to right, hsl(var(--dim) / 0.4) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(var(--dim) / 0.4) 1px, transparent 1px);
-    background-size: 50px 50px;
+      linear-gradient(to right, hsl(var(--dim) / 0.45) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--dim) / 0.45) 1px, transparent 1px);
+    background-size: 44px 44px;
   }
 
   .scanlines {
@@ -97,25 +109,66 @@
       0deg,
       transparent,
       transparent 2px,
-      rgba(255,255,255,0.01) 2px,
-      rgba(255,255,255,0.01) 4px
+      hsl(var(--primary) / 0.02) 2px,
+      hsl(var(--primary) / 0.02) 4px
     );
   }
 
   .terminal-card {
-    @apply bg-card border border-primary/15 relative;
-    box-shadow: 0 0 20px -8px hsl(var(--primary) / 0.08);
+    @apply relative overflow-hidden border bg-card;
+    border-color: hsl(var(--primary) / 0.16);
+    background-image: linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+    box-shadow:
+      0 0 0 1px hsl(var(--primary) / 0.04),
+      0 0 26px hsl(var(--primary) / 0.07),
+      inset 0 0 36px hsl(var(--primary) / 0.03);
   }
 
   .terminal-card::before {
     content: '';
-    @apply absolute top-0 left-0 right-0 h-px;
-    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.3), transparent);
+    @apply absolute inset-0 pointer-events-none;
+    background: linear-gradient(180deg, hsl(var(--primary) / 0.035), transparent 18%, transparent 82%, hsl(var(--accent) / 0.03));
+  }
+
+  .terminal-card::after {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      hsl(var(--primary) / 0.012) 3px,
+      hsl(var(--primary) / 0.012) 4px
+    );
+    opacity: 0.8;
+  }
+
+  .terminal-bar {
+    @apply relative z-10 border-b px-4 py-2 flex items-center gap-2 text-[10px] font-mono tracking-[0.24em];
+    border-color: hsl(var(--primary) / 0.14);
+    background: linear-gradient(180deg, hsl(var(--secondary)), hsl(var(--background)));
+    color: hsl(var(--primary) / 0.62);
+  }
+
+  .terminal-prompt {
+    @apply font-mono text-[10px] tracking-[0.24em] text-primary/70;
+  }
+
+  .terminal-chip {
+    @apply font-mono text-[10px] px-2.5 py-1 border tracking-[0.18em];
+    border-color: hsl(var(--primary) / 0.16);
+    color: hsl(var(--foreground) / 0.5);
+    background: hsl(var(--secondary) / 0.55);
+  }
+
+  .terminal-dot {
+    @apply size-2;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
   }
 }
 
 ::selection {
-  background: hsl(var(--primary) / 0.25);
+  background: hsl(var(--primary) / 0.24);
   color: hsl(var(--foreground));
 }
 
