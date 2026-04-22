@@ -72,6 +72,14 @@ export default function Navbar() {
                 {item.label}
               </a>
             ))}
+            <Link
+              to="/melody"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors"
+            >
+              <Music size={14} />
+              Melody Lab
+            </Link>
           </div>
         </motion.div>
       )}
