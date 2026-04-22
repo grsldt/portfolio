@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Zap, Target, Clock, MessageSquare, Star } from 'lucide-react';
+import { Zap, Target, Clock, MessageSquare, Star, ArrowRight } from 'lucide-react';
 
 const reasons = [
   { icon: Zap, title: "Développement rapide", text: "Des solutions livrées en quelques jours, pas en mois." },
