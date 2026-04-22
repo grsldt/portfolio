@@ -31,11 +31,11 @@ export default function HeroSection() {
             transition={{ delay: 0.5, duration: 0.8 }}
             className="font-heading font-bold text-5xl md:text-6xl lg:text-[5.5rem] leading-[0.85] tracking-tighter"
           >
-            ENGINEER<br />
-            <span className="text-outline">THE</span>{' '}
+            ROOT<br />
+            <span className="text-outline">ACCESS</span>{' '}
             <span className="relative inline-block">
               <span className="absolute -inset-2 blur-xl bg-accent/20" />
-              <span className="relative text-accent">FUTURE</span>
+              <span className="relative text-accent">GRANTED</span>
             </span>
           </motion.h1>
 
@@ -107,16 +107,16 @@ export default function HeroSection() {
           </motion.div>
         </div>
 
-        {/* Right: Terminal */}
+          {/* Right: Terminal */}
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.8, duration: 0.8 }}
-          className="lg:col-span-5 relative hidden lg:block"
+          className="lg:col-span-5 relative"
         >
           {/* Glitch borders */}
-          <div className="absolute -inset-2 border border-accent/20 translate-x-2 translate-y-2 pointer-events-none" />
-          <div className="absolute -inset-2 border border-primary/20 -translate-x-2 -translate-y-2 pointer-events-none" />
+          <div className="absolute -inset-2 border border-accent/20 translate-x-2 translate-y-2 pointer-events-none hidden lg:block" />
+          <div className="absolute -inset-2 border border-primary/20 -translate-x-2 -translate-y-2 pointer-events-none hidden lg:block" />
           
           <div className="bg-card border border-primary/30">
             <div className="h-8 border-b border-primary/20 bg-secondary flex items-center justify-between px-3">
@@ -124,15 +124,21 @@ export default function HeroSection() {
                 <div className="size-2 bg-accent/50" />
                 <div className="size-2 bg-primary/50" />
               </div>
-              <span className="text-[10px] text-foreground/30">TERMINAL_V4.2</span>
+              <span className="text-[10px] text-foreground/30">root@speed:~#</span>
             </div>
-            <div className="p-5 flex flex-col gap-3 text-xs text-primary/80 normal-case">
-              <span>&gt; Initialisation Speed Services...</span>
-              <span>&gt; Scan compétences... <span className="text-primary">[OK]</span></span>
-              <span>&gt; Projets livrés: <span className="text-foreground">47+</span></span>
-              <span>&gt; Clients satisfaits: <span className="text-foreground">100%</span></span>
-              <span>&gt; Status: <span className="text-primary">DISPONIBLE</span></span>
-              <span className="animate-blink text-primary">█</span>
+            <div className="p-5 flex flex-col gap-2.5 text-xs text-primary/70 normal-case font-mono">
+              <span className="text-foreground/30">$ nmap -sV target.local</span>
+              <span className="text-foreground/40">Starting scan... <span className="text-primary">[██████████]</span> 100%</span>
+              <span className="text-foreground/40">Open ports: <span className="text-accent">22</span>, <span className="text-accent">80</span>, <span className="text-accent">443</span>, <span className="text-accent">8080</span></span>
+              <span className="text-foreground/30 mt-1">$ cat /etc/speed/skills.conf</span>
+              <span className="text-foreground/50">web_dev=<span className="text-primary">enabled</span></span>
+              <span className="text-foreground/50">automation=<span className="text-primary">enabled</span></span>
+              <span className="text-foreground/50">cybersec=<span className="text-primary">enabled</span></span>
+              <span className="text-foreground/50">ai_ml=<span className="text-primary">enabled</span></span>
+              <span className="text-foreground/30 mt-1">$ systemctl status speed-services</span>
+              <span className="text-primary">● active (running)</span>
+              <span className="text-foreground/40">  Projets livrés: <span className="text-foreground">47+</span> | Uptime: <span className="text-foreground">99.9%</span></span>
+              <span className="text-foreground/30 mt-1">$ _<span className="animate-blink text-primary">█</span></span>
             </div>
           </div>
         </motion.div>
