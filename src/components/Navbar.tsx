@@ -35,6 +35,13 @@ export default function Navbar() {
               {item.label}
             </a>
           ))}
+          <Link
+            to="/melody"
+            className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-accent transition-colors duration-300"
+          >
+            <Music size={14} />
+            Melody Lab
+          </Link>
           <a
             href="#contact"
             className="px-5 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity"
