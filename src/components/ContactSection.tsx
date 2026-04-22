@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Mail, Phone, Github, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, Github, MapPin, Send, ArrowRight } from 'lucide-react';
 
 export default function ContactSection() {
   return (
@@ -9,16 +9,20 @@ export default function ContactSection() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-16"
+          className="mb-16 text-center"
         >
-          <div className="text-primary text-xs tracking-widest flex items-center gap-3 mb-6">
+          <div className="text-primary text-xs tracking-widest flex items-center justify-center gap-3 mb-6">
             <div className="h-px w-8 bg-primary" />
-            TRANSMISSION
+            PRÊT À DÉMARRER
+            <div className="h-px w-8 bg-primary" />
           </div>
-          <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight">
-            INITIATE{' '}
-            <span className="text-accent">CONTACT</span>
+          <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight normal-case">
+            Discutons de votre{' '}
+            <span className="text-accent">projet</span>
           </h2>
+          <p className="text-sm text-foreground/50 normal-case mt-4 max-w-[50ch] mx-auto leading-relaxed">
+            Décrivez-moi votre besoin par email et recevez un devis gratuit sous 24h.
+          </p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-4">
@@ -29,7 +33,7 @@ export default function ContactSection() {
             className="bg-card border border-primary/10"
           >
             <div className="border-b border-primary/10 px-4 py-3">
-              <span className="text-xs text-primary tracking-widest">SECURE_CHANNELS</span>
+              <span className="text-xs text-primary tracking-widest">MES COORDONNÉES</span>
             </div>
             <div className="p-5 space-y-4">
               <a href="mailto:gregsordel@icloud.com" className="flex items-center gap-4 group py-2 border-b border-foreground/5">
@@ -81,7 +85,7 @@ export default function ContactSection() {
             className="bg-card border border-primary/10 flex flex-col"
           >
             <div className="border-b border-primary/10 px-4 py-3">
-              <span className="text-xs text-primary tracking-widest">EXECUTE_REQUEST</span>
+              <span className="text-xs text-primary tracking-widest">DÉMARRER</span>
             </div>
             <div className="flex-1 p-5 flex flex-col items-center justify-center gap-6">
               <div className="relative">
@@ -91,17 +95,18 @@ export default function ContactSection() {
                   <Send size={28} className="text-primary" />
                 </div>
               </div>
-              <p className="text-xs text-foreground/50 text-center normal-case max-w-[30ch] leading-relaxed">
-                Décrivez-moi votre projet par email et recevez un devis gratuit sous 24h.
+              <p className="text-sm text-foreground/50 text-center normal-case max-w-[30ch] leading-relaxed">
+                Décrivez votre projet et recevez une proposition détaillée sous 24h.
               </p>
               <a
                 href="mailto:gregsordel@icloud.com?subject=Demande%20de%20devis%20-%20Speed%20Services"
-                className="group relative px-8 py-3.5 bg-primary text-primary-foreground font-bold text-xs tracking-widest overflow-hidden"
+                className="group relative px-8 py-4 bg-primary text-primary-foreground font-bold text-sm tracking-wider overflow-hidden normal-case"
               >
                 <span className="absolute inset-0 bg-accent -translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
                 <span className="relative group-hover:text-foreground transition-colors duration-300 flex items-center gap-2">
-                  <Mail size={14} />
-                  SEND_EMAIL
+                  <Mail size={16} />
+                  Discuter de mon projet
+                  <ArrowRight size={16} />
                 </span>
               </a>
             </div>
