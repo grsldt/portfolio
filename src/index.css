@@ -6,39 +6,39 @@
 
 @layer base {
   :root {
-    --background: 230 20% 2%;
-    --foreground: 0 0% 100%;
+    --background: 120 5% 3%;
+    --foreground: 120 80% 65%;
 
-    --card: 230 18% 5%;
-    --card-foreground: 0 0% 100%;
+    --card: 120 5% 5%;
+    --card-foreground: 120 80% 65%;
 
-    --popover: 230 18% 5%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 120 5% 5%;
+    --popover-foreground: 120 80% 65%;
 
-    --primary: 185 100% 50%;
-    --primary-foreground: 230 20% 2%;
+    --primary: 120 100% 45%;
+    --primary-foreground: 120 5% 3%;
 
-    --secondary: 230 15% 8%;
-    --secondary-foreground: 220 10% 75%;
+    --secondary: 120 5% 8%;
+    --secondary-foreground: 120 40% 50%;
 
-    --muted: 230 15% 8%;
-    --muted-foreground: 230 15% 35%;
+    --muted: 120 5% 8%;
+    --muted-foreground: 120 20% 30%;
 
-    --accent: 340 100% 50%;
+    --accent: 0 100% 50%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 185 100% 50%;
-    --input: 230 15% 12%;
-    --ring: 185 100% 50%;
+    --border: 120 100% 45%;
+    --input: 120 5% 12%;
+    --ring: 120 100% 45%;
 
     --radius: 0rem;
 
-    --cyan: 185 100% 50%;
-    --magenta: 340 100% 50%;
-    --dim: 230 20% 30%;
+    --cyan: 120 100% 45%;
+    --magenta: 0 100% 50%;
+    --dim: 120 10% 15%;
   }
 }
 
@@ -50,10 +50,12 @@
   body {
     @apply bg-background text-foreground font-mono antialiased uppercase;
     font-family: 'JetBrains Mono', monospace;
+    text-shadow: 0 0 8px hsl(120 100% 45% / 0.15);
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'JetBrains Mono', monospace;
+    text-shadow: 0 0 12px hsl(120 100% 45% / 0.2);
   }
 }
 
@@ -97,8 +99,8 @@
       0deg,
       transparent,
       transparent 2px,
-      rgba(255,255,255,0.015) 2px,
-      rgba(255,255,255,0.015) 4px
+      hsl(120 100% 45% / 0.02) 2px,
+      hsl(120 100% 45% / 0.02) 4px
     );
   }
 
@@ -106,10 +108,24 @@
     -webkit-text-stroke: 1px hsl(var(--foreground));
     color: transparent;
   }
+
+  .terminal-block {
+    @apply bg-card border border-primary/20 font-mono;
+    box-shadow: 0 0 15px hsl(120 100% 45% / 0.05), inset 0 0 30px hsl(120 100% 45% / 0.02);
+  }
+
+  .terminal-header {
+    @apply border-b border-primary/20 px-4 py-2 flex items-center gap-2 text-[10px] text-primary/60 tracking-widest;
+  }
+
+  .prompt::before {
+    content: '❯ ';
+    @apply text-primary;
+  }
 }
 
 ::selection {
-  background: hsl(var(--accent) / 0.4);
+  background: hsl(var(--primary) / 0.3);
   color: hsl(var(--foreground));
 }
 
