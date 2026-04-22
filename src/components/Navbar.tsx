@@ -4,9 +4,9 @@ import { Menu, X, Music } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const navItems = [
-  { label: '// PROJETS', href: '#projects' },
-  { label: '// SKILLS', href: '#skills' },
-  { label: '// CONTACT', href: '#contact' },
+  { label: 'Services', href: '#services' },
+  { label: 'Projets', href: '#projects' },
+  { label: 'Contact', href: '#contact' },
 ];
 
 export default function Navbar() {
@@ -21,11 +21,11 @@ export default function Navbar() {
     >
       <div className="container mx-auto px-6 py-3 flex items-center justify-between text-xs tracking-widest">
         <div className="flex items-center gap-6">
-          <a href="#hero" className="flex items-center gap-2 text-primary">
+          <a href="#hero" className="flex items-center gap-2 text-primary font-bold normal-case">
             <span className="size-2 bg-primary animate-pulse" />
-            <span>SYS.ONLINE</span>
+            Speed Services
           </a>
-          <div className="hidden md:flex gap-6 text-foreground/50">
+          <div className="hidden md:flex gap-6 text-foreground/50 normal-case">
             {navItems.map((item) => (
               <a
                 key={item.href}
@@ -40,7 +40,7 @@ export default function Navbar() {
               className="flex items-center gap-1.5 text-foreground/50 hover:text-accent transition-colors duration-300"
             >
               <Music size={12} />
-              // MELODY
+              Melody
             </Link>
           </div>
         </div>
@@ -48,9 +48,9 @@ export default function Navbar() {
         <div className="hidden md:block">
           <a
             href="#contact"
-            className="border border-primary/50 px-4 py-1.5 text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+            className="border border-primary/50 px-4 py-1.5 text-primary hover:bg-primary hover:text-primary-foreground transition-colors normal-case"
           >
-            INITIATE_CONTACT
+            Me contacter
           </a>
         </div>
 
@@ -65,7 +65,7 @@ export default function Navbar() {
           animate={{ opacity: 1, height: 'auto' }}
           className="md:hidden border-t border-primary/20 bg-background/95 backdrop-blur-md"
         >
-          <div className="px-6 py-4 flex flex-col gap-3 text-xs tracking-widest">
+          <div className="px-6 py-4 flex flex-col gap-3 text-xs tracking-widest normal-case">
             {navItems.map((item) => (
               <a
                 key={item.href}
@@ -82,14 +82,14 @@ export default function Navbar() {
               className="flex items-center gap-2 text-foreground/50 hover:text-accent transition-colors py-2"
             >
               <Music size={12} />
-              // MELODY
+              Melody
             </Link>
             <a
               href="#contact"
               onClick={() => setIsOpen(false)}
               className="border border-primary/50 px-4 py-2 text-primary text-center mt-2"
             >
-              INITIATE_CONTACT
+              Me contacter
             </a>
           </div>
         </motion.div>
